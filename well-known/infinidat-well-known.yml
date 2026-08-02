@@ -1,0 +1,67 @@
+generated: '2026-08-01'
+method: probed
+source: live HTTPS probes, 2026-08-01
+summary: >-
+  No /.well-known/ discovery surface is published on any Infinidat host. www.infinidat.com,
+  infinidat.com, support.infinidat.com and repo.infinidat.com return 404 for every probed path.
+  info.infinidat.com (the Drupal marketing host) returns HTTP 200 for every path, including
+  paths that cannot exist - the body is the site's HTML shell, not a well-known document - so
+  every 200 on that host is recorded as a catch-all false positive and NOT treated as a hit.
+  The InfiniBox REST API itself is served from customer-owned appliances, so there is no
+  internet-reachable API host to probe.
+hosts:
+- host: https://www.infinidat.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://infinidat.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://support.infinidat.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://repo.infinidat.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://info.infinidat.com
+  catch_all: true
+  note: >-
+    Drupal marketing host. Every probed path returns HTTP 200 with the site's
+    "<!DOCTYPE html>" shell. Treated as a catch-all, not as published documents.
+  documents:
+  - {path: /.well-known/security.txt, status: 200, verified: false, body: html-shell}
+  - {path: /.well-known/openid-configuration, status: 200, verified: false, body: html-shell}
+  - {path: /.well-known/oauth-authorization-server, status: 200, verified: false, body: html-shell}
+  - {path: /.well-known/api-catalog, status: 200, verified: false, body: html-shell}
+  - {path: /.well-known/ai-plugin.json, status: 200, verified: false, body: html-shell}
+  - {path: /.well-known/agent-card.json, status: 200, verified: false, body: html-shell}
+  - {path: /.well-known/agent.json, status: 200, verified: false, body: html-shell}
+  - {path: /llms.txt, status: 200, verified: false, body: html-shell}
+files: []

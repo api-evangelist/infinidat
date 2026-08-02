@@ -1,0 +1,34 @@
+generated: '2026-08-01'
+method: generated
+source: openapi/infinidat-infinibox-openapi.yml
+notes: >-
+  Infinidat publishes no AGENTS.md, skills/ directory or agent operating guide - the GitHub org,
+  the docs and the support portal were all checked. These skills are generated from the InfiniBox
+  operations in openapi/infinidat-infinibox-openapi.yml (itself derived from Infinidat's own 7.3
+  Postman collection), plus the conventions and error semantics captured in
+  conventions/infinidat-conventions.yml and errors/infinidat-problem-types.yml. Every operationId
+  referenced below exists verbatim in the spec. Steps that would require paths not present in the
+  captured spec are explicitly deferred to InfiniSDK, the Ansible collection or InfiniShell rather
+  than invented.
+skills:
+- file: infinidat-array-health-check.md
+  name: Check the health of an InfiniBox array
+  api: openapi/infinidat-infinibox-openapi.yml
+  consequence: read
+  operations: [login, systemGetName, systemGetReadyStatus, systemGetHealthState, systemGetTotalVirtualCapacity, systemGetStatistics, componentsGet, nodeGetNodes, nodeGetNode, logout]
+- file: infinidat-capacity-inventory.md
+  name: Inventory InfiniBox pools, filesystems and their metadata
+  api: openapi/infinidat-infinibox-openapi.yml
+  consequence: read
+  operations: [login, poolGetPools, fsGetAllFilesystems, fsGetFilesystemByID, metatdata, metatdataGetByObject, systemGetTotalVirtualCapacity, logout]
+- file: infinidat-directory-integration.md
+  name: Configure and verify an InfiniBox LDAP / Active Directory repository
+  api: openapi/infinidat-infinibox-openapi.yml
+  consequence: safety-critical
+  human_in_the_loop: required
+  operations: [login, ldapGetRepositories, ldapGetFirstRepository, ldapTestRepositoryComminucation, ldapCreateAUserRepository, ldapTestLDAPByID, ldapTestGroupByLDAPID, ldapResolveDomain, ldapUpdateTheRepositoryAttributes, ldapReorder, ldapReload, logout]
+- file: infinidat-host-onboarding.md
+  name: Onboard a host onto an InfiniBox array
+  api: openapi/infinidat-infinibox-openapi.yml
+  consequence: write
+  operations: [login, systemGetReadyStatus, systemGetHealthState, poolGetPools, hostCreate, metatdataAddToStorageEntity, metatdataGetByObject, logout]

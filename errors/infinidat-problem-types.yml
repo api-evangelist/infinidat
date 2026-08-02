@@ -1,0 +1,84 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/infinidat-infinibox-openapi.yml
+sources:
+- openapi/infinidat-infinibox-openapi.yml
+- postman/infinidat-infinibox-7-3-postman.json
+- https://github.com/Infinidat/infinisdk/blob/master/infinisdk/core/api/api.py
+- https://github.com/Infinidat/infinisdk/blob/master/infinisdk/core/config.py
+format: proprietary
+rfc9457: false
+media_type: application/json
+envelope:
+  shape: '{ "result": null, "metadata": {...}, "error": { "code": "...", "message": "...", "severity": "...", "reasons": [...] } }'
+  error_field: error
+  fields:
+  - {name: code, description: 'machine-readable error code, e.g. APPROVAL_REQUIRED'}
+  - {name: message, description: 'human-readable message'}
+  - {name: severity, description: 'severity of the failure'}
+  - {name: reasons, description: 'array of specific reasons; InfiniSDK reads reasons[0] as the approval prompt'}
+notes: >-
+  Infinidat does not publish an open error-code registry for the InfiniBox REST API - the full
+  code list ships inside the product documentation on support.infinidat.com, which is
+  authentication-walled. The codes below are the ones that are genuinely observable in public
+  first-party sources (InfiniSDK's own handling of them). HTTP statuses are those InfiniSDK's
+  transport layer branches on. Nothing here is invented; the catalog is deliberately short
+  rather than padded.
+status_codes:
+- status: 200
+  meaning: Success. result carries the object or collection, error is null.
+  evidence: saved 200 examples in postman/infinidat-infinibox-7-3-postman.json
+- status: 401
+  meaning: >-
+    Unauthenticated - no session, or the session cookie expired. InfiniSDK marks the client
+    logged-out, calls system.login() and retries the request exactly once.
+  evidence: 'infinisdk/core/api/api.py: requests.codes.unauthorized branch in APITarget.request'
+  remediation: Re-authenticate with POST /users/login and retry.
+- status: 403
+  meaning: >-
+    Forbidden. When error.code is REMOTE_PERMISSION_REQUIRED the operation targets a related
+    (replication peer) InfiniBox and needs that system's credentials.
+  evidence: 'infinisdk/core/api/api.py: (e.status_code == 403) and (e.error_code == "REMOTE_PERMISSION_REQUIRED")'
+  remediation: Retry with an X-Remote-Authorization Basic credential for the related system.
+- status: 503
+  meaning: Service unavailable - the array is not currently able to serve the management API.
+  evidence: 'infinisdk/core/api/api.py: httplib.SERVICE_UNAVAILABLE handling in the auto-retry context'
+  remediation: Retry; InfiniSDK's auto-retry context handles this transparently.
+error_codes:
+- code: APPROVAL_REQUIRED
+  title: Operation requires explicit approval
+  meaning: >-
+    A high-consequence operation was rejected because it was not explicitly approved. The reason
+    is on error.reasons[0].
+  action: Re-issue the identical request with the query parameter approved=true.
+  evidence: 'infinisdk/core/config.py: infinibox.approval_required_codes'
+- code: APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN
+  title: Operation requires approval - volume has children
+  meaning: >-
+    The targeted volume has dependent snapshots or clones, so the operation is gated behind
+    explicit approval.
+  action: Confirm the blast radius, then re-issue with approved=true.
+  evidence: 'infinisdk/core/config.py: infinibox.approval_required_codes'
+- code: REMOTE_PERMISSION_REQUIRED
+  title: Credentials required for the related system
+  meaning: >-
+    The operation crosses into a replication peer InfiniBox for which no credentials were supplied.
+  action: Supply the peer's credentials on the X-Remote-Authorization header (Basic) and retry.
+  evidence: 'infinisdk/core/api/api.py'
+client_exceptions:
+  library: infinisdk
+  source: https://github.com/Infinidat/infinisdk/blob/master/infinisdk/core/exceptions.py
+  types:
+  - {name: APICommandFailed, meaning: 'the API returned a non-success status with an error object'}
+  - {name: APITransportFailure, meaning: 'the HTTP request never completed'}
+  - {name: SystemNotFoundException, meaning: 'no management URL for the system could be reached'}
+  - {name: CommandNotApproved, meaning: 'an approval-required command was declined by the operator'}
+  - {name: MethodDisabled, meaning: 'the HTTP method was disabled on the client (read-only mode)'}
+  - {name: RelatedSystemNotFound, meaning: 'REMOTE_PERMISSION_REQUIRED but no related system is registered'}
+  - {name: CacheMiss, meaning: 'a field was read from cache that was never fetched'}
+  - {name: InvalidOperationException, meaning: 'the operation is not valid for this object state'}
+gaps:
+- The full InfiniBox error-code registry is not published on a public URL.
+- No RFC 9457 application/problem+json representation is offered.
+- The derived OpenAPI's 401 responses are inferred from InfiniSDK's documented handling, not from
+  saved 4xx examples - the 7.3 collection carries no saved error responses.

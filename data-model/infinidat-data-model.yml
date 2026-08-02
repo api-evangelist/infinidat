@@ -1,0 +1,172 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/infinidat-infinibox-openapi.yml
+sources:
+- openapi/infinidat-infinibox-openapi.yml
+- postman/infinidat-infinibox-7-3-postman.json
+- https://infinisdk.readthedocs.io/en/latest/
+- https://github.com/Infinidat/ansible-infinidat-collection
+summary: >-
+  The InfiniBox object model, derived from the paths and saved response examples in the 7.3 API
+  collection, cross-checked against the object collections InfiniSDK documents and the resources
+  the Ansible collection manages. Entities marked confirmed_in_spec: true appear in the derived
+  OpenAPI; the rest are documented first-party objects that the 7.3 collection simply does not
+  exercise, and are recorded so the model is not misleadingly narrow.
+id_convention:
+  style: integer
+  note: >-
+    InfiniBox objects are identified by a numeric id (node id 1..3, pool id 358, ldap repository
+    id). There are no typed/prefixed string ids. Objects are also addressable by name via the
+    filter syntax, e.g. GET /pools?name=eq:my-pool.
+entities:
+- name: System
+  path: /system
+  confirmed_in_spec: true
+  description: The array itself - name, readiness, health state, security posture, EULA, statistics, capacity.
+  attributes_observed: [name, ready, health_state, security, eula, stats, capacity.total_virtual_capacity]
+  operations: [systemGetName, systemGetReadyStatus, systemGetHealthState, systemGetSecurity, systemGetEULA, systemGetStatistics, systemGetTotalVirtualCapacity]
+- name: Rack
+  path: /components/racks/{rack_id}
+  confirmed_in_spec: true
+  description: A physical rack of the array; the root of the hardware component tree.
+- name: Node
+  path: /components/racks/{rack_id}/nodes/{node_id}
+  confirmed_in_spec: true
+  description: >-
+    A controller node. Saved examples show model, vendor, firmware, state, state_description,
+    node_bbu_protection, protecting_bbu, and nested ipmi/ntp/bios sub-state.
+  attributes_observed: [id, name, model, vendor, firmware, state, state_description, node_bbu_protection, protecting_bbu, protecting_bbu_charge_level]
+- name: PortGroup
+  path: /components/racks/{rack_id}/nodes/{node_id}/pgs
+  confirmed_in_spec: true
+  description: Port groups on a node.
+- name: IBPort
+  path: /components/racks/{rack_id}/nodes/{node_id}/ib_ports
+  confirmed_in_spec: true
+  description: InfiniBand ports on a node.
+- name: FCPort
+  confirmed_in_spec: false
+  description: >-
+    Fibre Channel HBA ports. Present in the saved node example (vendor QLogic, model ISP2071,
+    wwnn/wwpn, link_state, max_speed, role, hba_port_number) but not as a standalone path in the
+    collection.
+- name: Drive
+  confirmed_in_spec: false
+  description: >-
+    Physical drives. Present in the saved node example (model, vendor, firmware, serial_number,
+    drive_index, node_index, type Disk|SSD, wearout, state) but not as a standalone path.
+- name: SupportAppliance
+  path: /components/racks/{rack_id}/support_appliances/{support_appliance_id}
+  confirmed_in_spec: true
+  description: Support appliances attached to the rack.
+- name: Pool
+  path: /pools
+  confirmed_in_spec: true
+  description: A storage pool - the capacity container that owns volumes and filesystems.
+  addressable_by: [id, name]
+- name: Volume
+  confirmed_in_spec: false
+  description: >-
+    A block volume in a pool. The 7.3 collection has a request named "Volumes" but it points at
+    /metadata/, so the volume path is not actually exercised. InfiniSDK documents system.volumes
+    and the Ansible collection ships infini_vol.
+- name: Filesystem
+  path: /filesystems/{id}
+  confirmed_in_spec: true
+  description: A NAS filesystem in a pool.
+- name: Export
+  confirmed_in_spec: false
+  description: An NFS/SMB export of a filesystem, with per-client rules (Ansible infini_export, infini_export_client).
+- name: Host
+  path: /hosts
+  confirmed_in_spec: true
+  description: An initiator host that volumes are mapped to.
+  operations: [hostCreate]
+- name: HostCluster
+  confirmed_in_spec: false
+  description: A cluster of hosts sharing mappings (Ansible infini_cluster).
+- name: Mapping (LUN)
+  confirmed_in_spec: false
+  description: The volume-to-host/cluster mapping that assigns a LUN (Ansible infini_map).
+- name: Snapshot
+  confirmed_in_spec: false
+  description: A point-in-time child of a volume or filesystem; the parent/child link is what drives the APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN gate.
+- name: SnapshotPolicy
+  confirmed_in_spec: false
+  description: A schedule that creates and retires snapshots automatically.
+- name: ConsistencyGroup
+  confirmed_in_spec: false
+  description: A group of volumes snapshotted atomically.
+- name: Replica
+  confirmed_in_spec: false
+  description: >-
+    A replication relationship with a related InfiniBox. Operations against the peer are what
+    trigger REMOTE_PERMISSION_REQUIRED and the X-Remote-Authorization header.
+- name: Metadata
+  path: /metadata/{object_id}
+  confirmed_in_spec: true
+  description: Arbitrary key/value metadata attached to any storage entity, keyed by that entity's object id.
+  operations: [metatdata, metatdataGetByObject, metatdataAddToStorageEntity]
+- name: User
+  confirmed_in_spec: false
+  description: A local InfiniBox user with a role (Ansible infini_user).
+- name: UsersRepository (LDAP/AD)
+  path: /config/ldap/{ldap_id}
+  confirmed_in_spec: true
+  description: An LDAP or Active Directory user repository, with ordering, domain resolution and connectivity tests.
+  operations: [ldapCreateAUserRepository, ldapGetRepositories, ldapGetFirstRepository, ldapUpdateTheRepositoryAttributes, ldapReload, ldapReorder, ldapResolveDomain, ldapTestRepositoryComminucation, ldapTestLDAPByID, ldapTestGroupByLDAPID]
+- name: Session
+  path: /users/login
+  confirmed_in_spec: true
+  description: An authenticated session, established by login and destroyed by logout.
+  operations: [login, logout]
+- name: Config
+  path: /config
+  confirmed_in_spec: true
+  description: System configuration, including the security sub-tree.
+  operations: [configGet, configSecurityGet]
+- name: KMSConfiguration
+  path: /system/kms
+  confirmed_in_spec: true
+  description: External key-management configuration for encryption at rest, including CA certificate and array certificate/key upload.
+  operations: [configKMSGet, configKMSSet, configKMSUploadCACertificate, configKMSUploadCertificateAndKey]
+- name: Certificate
+  path: /system/certificates/upload_csr
+  confirmed_in_spec: true
+  description: Array TLS certificate management (CSR upload).
+  operations: [certificateUploadCsr]
+- name: NetworkSpace
+  confirmed_in_spec: false
+  description: A logical network with IP addresses and services (NAS, iSCSI, replication) (Ansible infini_network_space).
+- name: Event
+  confirmed_in_spec: false
+  description: A system event with a code (VOLUME_CREATED, USER_LOGIN_SUCCESS, DISK_SPACE_LOW), a level and a sequence number.
+- name: NotificationTarget
+  confirmed_in_spec: false
+  description: An SNMP or SYSLOG destination for event notifications (Ansible infini_notification_target).
+- name: NotificationRule
+  confirmed_in_spec: false
+  description: A rule binding event levels/codes to a notification target (Ansible infini_notification_rule).
+relationships:
+- {from: Rack, to: Node, kind: has_many, via: '/components/racks/{rack_id}/nodes'}
+- {from: Rack, to: SupportAppliance, kind: has_many, via: '/components/racks/{rack_id}/support_appliances'}
+- {from: Node, to: PortGroup, kind: has_many, via: '/components/racks/{rack_id}/nodes/{node_id}/pgs'}
+- {from: Node, to: IBPort, kind: has_many, via: '/components/racks/{rack_id}/nodes/{node_id}/ib_ports'}
+- {from: Node, to: FCPort, kind: has_many, via: 'fc_ports[] in the node response example'}
+- {from: Node, to: Drive, kind: has_many, via: 'drives[] in the node response example'}
+- {from: Pool, to: Volume, kind: has_many, via: pool}
+- {from: Pool, to: Filesystem, kind: has_many, via: pool}
+- {from: Volume, to: Snapshot, kind: has_many, via: parent}
+- {from: Filesystem, to: Export, kind: has_many, via: filesystem}
+- {from: Export, to: ExportClient, kind: has_many, via: permissions}
+- {from: Host, to: Mapping, kind: has_many, via: host}
+- {from: Volume, to: Mapping, kind: has_many, via: volume}
+- {from: HostCluster, to: Host, kind: has_many, via: cluster}
+- {from: Any storage entity, to: Metadata, kind: has_many, via: object_id}
+- {from: NotificationRule, to: NotificationTarget, kind: belongs_to, via: target}
+- {from: NotificationRule, to: Event, kind: 'filters (by level and code)', via: event_level / event_code}
+- {from: SnapshotPolicy, to: Snapshot, kind: has_many, via: policy}
+- {from: ConsistencyGroup, to: Volume, kind: has_many, via: cg}
+- {from: UsersRepository, to: User, kind: 'resolves', via: ldap_id}
+render: null
+render_note: No subway/ visual exists for this repo yet.

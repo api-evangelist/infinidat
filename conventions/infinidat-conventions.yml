@@ -1,0 +1,129 @@
+generated: '2026-08-01'
+method: searched
+source: https://infinisdk.readthedocs.io/en/latest/efficient_querying.html
+sources:
+- https://infinisdk.readthedocs.io/en/latest/efficient_querying.html
+- https://infinisdk.readthedocs.io/en/latest/getting_started.html
+- https://github.com/Infinidat/infinisdk/blob/master/infinisdk/core/api/api.py
+- postman/infinidat-infinibox-7-3-postman.json
+- openapi/infinidat-infinibox-openapi.yml
+api: InfiniBox REST API (InfiniAPI)
+base_path: /api/rest
+transport:
+  scheme: https
+  note: >-
+    Served by each InfiniBox array on its own management interface. InfiniSDK can be pointed at
+    http as well (use_ssl=False), and probes a list of candidate management URLs per system.
+authentication:
+  styles:
+  - {type: session, flow: 'POST /users/login establishes a session cookie; POST /users/logout tears it down'}
+  - {type: http-basic, note: 'InfiniBox users authenticate with HTTP Basic; InfiniSDK stores credentials in ~/.infinidat/infinisdk.ini'}
+  - {type: saml-sso, note: 'The 7.3 collection includes an Okta SAML SSO login flow; the collection also ships an infini_sso Ansible module'}
+  session_expiry: >-
+    A 401 on a request that previously had cookies is the signal that the session expired;
+    InfiniSDK transparently re-logs-in and retries once.
+  delegated_auth:
+    header: X-Remote-Authorization
+    scheme: Basic
+    trigger: 'HTTP 403 with error.code == REMOTE_PERMISSION_REQUIRED'
+    note: >-
+      Cross-system operations (replication against a related InfiniBox) require credentials for
+      the remote system, supplied on X-Remote-Authorization rather than the primary Authorization header.
+  detail: authentication/infinidat-authentication.yml
+idempotency:
+  supported: false
+  idempotency_key_header: null
+  note: >-
+    Infinidat publishes no idempotency-key contract for the InfiniBox REST API. There is no
+    Idempotency-Key header or replay window in the 7.3 collection, in the OpenAPI derived from it,
+    or in InfiniSDK's HTTP layer. Idempotency in the Infinidat ecosystem is provided one layer up,
+    by the Ansible collection's declarative state modules (state=present/absent), not by the API.
+    No Idempotency pointer is wired in apis.yml for this reason.
+approval_gate:
+  supported: true
+  mechanism: query-parameter
+  parameter: approved
+  value: 'true'
+  trigger_error_codes:
+  - APPROVAL_REQUIRED
+  - APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN
+  note: >-
+    Destructive or high-consequence operations fail with an error code in the approval-required
+    set and a human-readable reason on error.reasons[0]. The caller re-issues the same request with
+    ?approved=true to proceed. InfiniSDK surfaces this as an interactive y/N confirmation and raises
+    CommandNotApproved when declined. This is a genuine human-in-the-loop primitive in the contract
+    and is the single most agent-relevant convention on this API.
+pagination:
+  style: page-number
+  request_params:
+  - {name: page, description: '1-based page number'}
+  - {name: page_size, description: 'objects per page; default 50, maximum 1000'}
+  response_envelope_field: metadata
+  response_fields:
+  - {name: page, description: 'the page returned'}
+  - {name: page_size, description: 'the page size in effect'}
+  - {name: pages_total, description: 'total number of pages'}
+  - {name: number_of_objects, description: 'total number of matching objects'}
+  - {name: ready, description: 'whether the system had the result set ready'}
+field_selection:
+  param: fields
+  style: comma-separated
+  example: '?fields=id,size,name'
+  note: InfiniSDK exposes this as .only_fields(...) on a query.
+sorting:
+  param: sort
+  example: '?sort=created_at'
+  descending: 'prefix the field with - (InfiniSDK: sort(-system.volumes.fields.id))'
+filtering:
+  style: prefixed-operator-on-query-param
+  operators:
+  - {op: 'eq:', meaning: equals, example: '?name=eq:my-volume-name'}
+  - {op: 'ne:', meaning: not equals, example: '?type=ne:SNAPSHOT'}
+  - {op: 'like:', meaning: substring match, example: '?name=like:Database'}
+  - {op: 'gt: / ge: / lt: / le:', meaning: 'range comparisons (InfiniSDK Q.size >= 100*GiB)'}
+  - {op: 'in:', meaning: 'membership (InfiniSDK Q.pool.in_([...]))'}
+response_envelope:
+  shape: '{ "result": ..., "metadata": {...}, "error": null }'
+  fields:
+  - {name: result, description: 'the requested object, or the array of objects for a collection'}
+  - {name: metadata, description: 'pagination + readiness metadata (see pagination above)'}
+  - {name: error, description: 'null on success; an error object on failure'}
+  error_object_fields: [code, message, severity, reasons]
+  format: proprietary
+  rfc9457: false
+  detail: errors/infinidat-problem-types.yml
+headers:
+  request:
+  - {name: Content-type, value: application/json, note: 'set by InfiniSDK on bodied requests'}
+  - {name: User-Agent, note: 'InfiniSDK sets a client identifier'}
+  - {name: X-Remote-Authorization, note: 'delegated credentials for a related system'}
+  response:
+  - {name: X-INFINIDAT-VERSION, note: 'the InfiniBox API version the array is serving (the 7.3 collection asserts on this)'}
+  - {name: X-INFINIDAT-SOURCE, note: 'session/source identifier returned on login'}
+  - {name: x-infinidat-deprecated-api, note: 'per-response deprecation warning; InfiniSDK raises a Python DeprecationWarning when present'}
+versioning:
+  scheme: product-release
+  current: '7.3'
+  signalled_by: X-INFINIDAT-VERSION response header
+  in_path: false
+  note: >-
+    The API is versioned with the InfiniBox software release (the array reports its version on
+    every response); there is no version segment in the URL path. Deprecations are signalled
+    per-response with the x-infinidat-deprecated-api header rather than by a version bump.
+  detail: lifecycle/infinidat-lifecycle.yml
+retries:
+  transport_retry: true
+  note: >-
+    InfiniSDK retries automatically on transport failures and on HTTP 503 (SERVICE_UNAVAILABLE),
+    and re-authenticates once on 401. No Retry-After contract is documented.
+rate_limiting:
+  documented: false
+  note: >-
+    Infinidat publishes no rate-limit contract for the InfiniBox API. It is an appliance-local
+    management API, not a metered multi-tenant service; no 429 semantics or rate-limit headers
+    appear in the collection, in InfiniSDK, or in the docs.
+metadata_api:
+  supported: true
+  note: >-
+    Arbitrary key/value metadata can be attached to any storage entity via /metadata/{object_id}
+    (GET to read, PUT to set), and is also exposed as the infini_metadata Ansible module.

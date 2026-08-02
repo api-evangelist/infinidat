@@ -1,0 +1,146 @@
+generated: '2026-08-01'
+method: searched
+source: https://github.com/Infinidat
+notes: >-
+  First-party Infinidat client libraries, automation collections and drivers found on public
+  registries. Infinidat publishes almost exclusively in the Python / Go / Ansible ecosystems -
+  there is no first-party JavaScript, Java, .NET, Ruby, PHP or Rust SDK for the InfiniBox API.
+  The infi.* namespace on PyPI is Infinidat's own low-level systems-programming toolkit and is
+  listed here only where it is a direct dependency of InfiniSDK.
+packages:
+- language: python
+  registry: pypi
+  name: infinisdk
+  version: 289.1.4
+  url: https://pypi.org/project/infinisdk/
+  install: pip install infinisdk
+  docs: https://infinisdk.readthedocs.io/en/latest/
+  source: https://github.com/Infinidat/infinisdk
+  license: BSD
+  official: true
+  description: >-
+    Infinidat's official Python SDK for InfiniBox. Wraps the InfiniBox REST API in typed
+    collections (volumes, pools, filesystems, hosts, snapshots, replicas, events,
+    notification rules) and also exposes the raw HTTP surface via system.api.get/post/put/delete.
+- language: python
+  registry: pypi
+  name: capacity
+  version: 1.3.14
+  url: https://pypi.org/project/capacity/
+  install: pip install capacity
+  source: https://github.com/Infinidat/capacity
+  official: true
+  description: Data types for describing storage capacity (GiB/TiB arithmetic); an InfiniSDK dependency.
+- language: python
+  registry: pypi
+  name: api_object_schema
+  version: 2.0.0
+  url: https://pypi.org/project/api_object_schema/
+  install: pip install api_object_schema
+  source: https://github.com/Infinidat/api_object_schema
+  official: true
+  description: Utilities for defining schemas of Pythonic objects interacting with external APIs; the field/type layer under InfiniSDK.
+- language: python
+  registry: pypi
+  name: storage_interfaces
+  version: 1.0.5
+  url: https://pypi.org/project/storage_interfaces/
+  install: pip install storage_interfaces
+  source: https://github.com/Infinidat/storage_interfaces
+  official: true
+  description: Abstract classes representing storage-related objects; an InfiniSDK dependency.
+- language: python
+  registry: pypi
+  name: infi.dtypes.wwn
+  version: 0.1.1
+  url: https://pypi.org/project/infi.dtypes.wwn/
+  install: pip install infi.dtypes.wwn
+  official: true
+  description: WWN (Fibre Channel World Wide Name) datatype used by InfiniSDK.
+- language: python
+  registry: pypi
+  name: infi.dtypes.iqn
+  version: 0.4.0
+  url: https://pypi.org/project/infi.dtypes.iqn/
+  install: pip install infi.dtypes.iqn
+  source: https://github.com/Infinidat/infi.dtypes.iqn
+  official: true
+  description: iSCSI Qualified Name datatype used by InfiniSDK.
+- language: python
+  registry: pypi
+  name: infi.dtypes.nqn
+  version: 0.1.0
+  url: https://pypi.org/project/infi.dtypes.nqn/
+  install: pip install infi.dtypes.nqn
+  source: https://github.com/Infinidat/infi.dtypes.nqn
+  official: true
+  description: NVMe Qualified Name datatype used by InfiniSDK.
+- language: python
+  registry: pypi
+  name: munch
+  version: null
+  url: https://pypi.org/project/munch/
+  install: pip install munch
+  source: https://github.com/Infinidat/munch
+  official: true
+  description: >-
+    Attribute-style access dictionary. Maintained in the Infinidat GitHub org and used by
+    InfiniSDK, but a general-purpose library rather than an InfiniBox client.
+- language: yaml
+  registry: ansible-galaxy
+  name: infinidat.infinibox
+  version: 1.8.1
+  url: https://galaxy.ansible.com/ui/repo/published/infinidat/infinibox/
+  install: ansible-galaxy collection install infinidat.infinibox
+  source: https://github.com/Infinidat/ansible-infinidat-collection
+  official: true
+  downloads: 112174
+  description: >-
+    Official Ansible collection for InfiniBox, built on InfiniSDK. 21 modules - infini_certificate,
+    infini_cluster, infini_config, infini_event, infini_export, infini_export_client,
+    infini_fibre_channel_switch, infini_fs, infini_host, infini_infinimetrics, infini_map,
+    infini_metadata, infini_network_space, infini_notification_rule, infini_notification_target,
+    infini_pool, infini_port, infini_sso, infini_user, infini_users_repository, infini_vol.
+- language: go
+  registry: github
+  name: infinibox-csi-driver
+  url: https://github.com/Infinidat/infinibox-csi-driver
+  module: infinibox-csi-driver
+  install: helm install (see the InfiniBox CSI Driver user guide)
+  license: Apache-2.0
+  official: true
+  docs: https://support.infinidat.com/hc/en-us/articles/10106070174749
+  release_notes: https://support.infinidat.com/hc/en-us/articles/10106069979293
+  description: >-
+    The official Container Storage Interface (CSI) driver for InfiniBox. Helm and Operator based
+    installation. Not published to a Go module proxy under a resolvable module path - the go.mod
+    declares the bare module name "infinibox-csi-driver", so it is consumed as a container image
+    rather than as an importable Go library.
+- language: container
+  registry: dockerhub
+  name: infinidat/infinidat-csi-driver
+  url: https://hub.docker.com/r/infinidat/infinidat-csi-driver
+  install: docker pull infinidat/infinidat-csi-driver
+  official: true
+  description: >-
+    Container image for the InfiniBox CSI driver. The infinidat Docker Hub org publishes 19
+    repositories including infinidat-csi-operator, infinibox-operator, infinidat-csi-metrics,
+    infinidat-k8s-provisioner, infinimetrics and infinizone_server/infinizone_ui.
+- language: python
+  registry: github
+  name: infinidat_openstack
+  url: https://github.com/Infinidat/infinidat_openstack
+  official: true
+  description: OpenStack Cinder volume driver and configuration tooling for InfiniBox.
+registries_checked:
+- {registry: pypi, result: hit}
+- {registry: ansible-galaxy, result: hit}
+- {registry: dockerhub, result: hit}
+- {registry: npm, result: none, note: 'only infinidat-react-dygraphs, an unrelated charting wrapper - not an API client'}
+- {registry: maven-central, result: none}
+- {registry: nuget, result: none}
+- {registry: pkg.go.dev, result: none, note: 'github.com/Infinidat/infinibox-csi-driver returns 404 - no resolvable module path'}
+- {registry: rubygems, result: none}
+- {registry: packagist, result: none}
+- {registry: crates.io, result: none}
+- {registry: terraform-registry, result: none, note: 'no Infinidat namespace providers'}

@@ -1,0 +1,23 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/infinidat-infinibox-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - cookie
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic authentication with an InfiniBox user, as used by InfiniSDK.
+  sources:
+  - openapi/infinidat-infinibox-openapi.yml
+- name: sessionCookie
+  type: apiKey
+  in: cookie
+  parameter: sessionid
+  description: Session established by POST /users/login and torn down by POST /users/logout.
+  sources:
+  - openapi/infinidat-infinibox-openapi.yml

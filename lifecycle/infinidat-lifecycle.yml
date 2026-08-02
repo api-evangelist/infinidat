@@ -1,0 +1,84 @@
+generated: '2026-08-01'
+method: searched
+source: https://support.infinidat.com/hc/en-us
+sources:
+- https://support.infinidat.com/hc/en-us
+- https://github.com/Infinidat/infinisdk/blob/master/infinisdk/core/api/api.py
+- https://github.com/Infinidat/ansible-infinidat-collection/blob/master/CHANGELOG.rst
+- postman/infinidat-infinibox-7-3-postman.json
+versioning:
+  scheme: product-release
+  current: '7.3'
+  in_path: false
+  signalled_by:
+    header: X-INFINIDAT-VERSION
+    note: >-
+      Every response carries the InfiniBox software version serving the API. Infinidat's own 7.3
+      Postman collection asserts that this header contains the expected apiVersion, which makes
+      the header the de facto version contract.
+  note: >-
+    The InfiniBox REST API is versioned with the array's software release rather than with a URL
+    segment. Release notes for each InfiniBox / InfiniGuard / InfiniVerse release are published in
+    the Documentation category on the support portal.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: x-infinidat-deprecated-api
+  mechanism: per-response-header
+  evidence: >-
+    InfiniSDK reads the x-infinidat-deprecated-api response header on every request and raises a
+    Python DeprecationWarning carrying the server's message
+    (infinisdk/core/api/api.py, APITarget.request).
+  note: >-
+    Infinidat signals deprecation in-band, per response, rather than with an RFC 8594
+    Deprecation/Sunset header pair or a published deprecation-policy page. Because there is no
+    public policy document, no Deprecation pointer is wired in apis.yml - the header is a real
+    mechanism but not a published policy.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    Infinidat markets a 100% availability guarantee for InfiniBox arrays, but that is a hardware
+    availability guarantee negotiated per contract - there is no published API SLA, because the
+    management API runs on customer-owned equipment.
+support:
+  portal: https://support.infinidat.com/hc/en-us
+  documentation: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  services_overview: https://www.infinidat.com/en/resource-pdfs/infinidat-support-services.pdf
+  note: The support portal returns HTTP 403 to non-browser clients; it is reachable interactively.
+status_page: null
+status_page_note: >-
+  Infinidat publishes no public status page. This is expected for an on-premises appliance
+  vendor - there is no hosted service whose availability could be reported - so no StatusPage
+  pointer is wired.
+support_lifecycle:
+  end_of_life_policy_url: null
+  note: >-
+    InfiniBox release support windows and end-of-support dates are published inside the
+    authentication-walled support portal, not on a public URL.
+company_lifecycle:
+  ownership: >-
+    Lenovo announced its intent to acquire Infinidat in January 2025 and completed the acquisition
+    on 9 April 2026. Infinidat now operates as a business unit within Lenovo's Infrastructure
+    Solutions Group.
+  evidence:
+  - https://www.infinidat.com/en/news/press-releases/lenovo-acquire-infinidat-further-expanding-enterprise-storage-portfolio
+  - https://news.lenovo.com/pressroom/press-releases/lenovo-completes-acquisition-of-infinidat-expanding-enterprise-storage-portfolio-enhancing-ai-driven-data-infrastructure/
+  api_impact: >-
+    No change to the InfiniBox API surface has been announced. The developer surface
+    (support.infinidat.com, github.com/Infinidat, PyPI, Ansible Galaxy) is still Infinidat-branded.
+retired_surfaces:
+- name: code.infinidat.com
+  role: developer portal
+  status: dead
+  http_status: 404
+  observed: '2026-08-01'
+  note: >-
+    Still linked as "Developer Portal" from the infinidat.com footer, but the hostname now points
+    at an unconfigured WP Engine site (TLS certificate is *.wpengine.com and the body is WP
+    Engine's "Site Not Configured" 404). No DeveloperPortal pointer is wired because the page
+    does not resolve.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in the derived OpenAPI is marked deprecated; the source 7.3 Postman collection
+  carries no deprecation markers.

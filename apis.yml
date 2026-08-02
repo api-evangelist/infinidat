@@ -1,18 +1,57 @@
 aid: infinidat
 name: Infinidat
-description: 'Infinidat is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Infinidat is an enterprise storage vendor — a Lenovo company since April 2026 — building
+  petabyte-scale primary storage, all-flash arrays and cyber-resilient backup appliances: InfiniBox and
+  InfiniBox SSA for primary block and file workloads, InfiniGuard for backup and rapid recovery, and the
+  InfiniSafe cyber-resilience layer with immutable snapshots, logical air-gapping, a fenced forensic
+  environment and cyber detection. Every InfiniBox array serves its own management REST API (InfiniAPI)
+  at https://<array>/api/rest, alongside the InfiniShell CLI and an HTML5 GUI. Infinidat publishes a
+  first-party Postman collection for the InfiniBox 7.3 API, the InfiniSDK Python SDK, an Ansible
+  collection, a Kubernetes CSI driver and an OpenStack Cinder driver on GitHub.'
 url: https://raw.githubusercontent.com/api-evangelist/infinidat/refs/heads/main/apis.yml
+image: https://www.infinidat.com/themes/sitetheme/images/opengraph.jpg
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-01'
 modified: '2026-08-01'
 tags:
 - Company
-apis: []
+- Storage
+- Enterprise Storage
+- Data Infrastructure
+- Data Protection
+- Cyber Resilience
+- Backup and Recovery
+- Kubernetes
+- Infrastructure
+- On-Premises
+apis:
+- aid: infinidat:infinibox-rest-api
+  name: InfiniBox REST API (InfiniAPI)
+  description: 'The management REST API served by every InfiniBox and InfiniBox SSA array on its own
+    management interface at https://<array>/api/rest. It exposes system health and readiness, capacity
+    and statistics, hardware components (racks, nodes, ports, drives, support appliances), pools,
+    filesystems, hosts, entity metadata, LDAP/Active Directory user repositories, KMS and certificate
+    configuration, and session login/logout. Responses use a consistent envelope of result / metadata /
+    error, with page + page_size pagination, a fields selector, sort, and eq:/ne:/like: filter
+    operators. High-consequence operations are gated behind an explicit ?approved=true re-issue.
+    Because the API is served by the appliance itself there is no single public base URL — the server
+    is a template over the customer''s own array hostname.'
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - Storage
+  - Infrastructure
+  - Management
+  - Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-infinibox-openapi.yml
+  - type: Overlay
+    url: overlays/infinidat-infinibox-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +59,93 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/infinidat_stock/
+  url: https://www.infinidat.com/en
+- type: Documentation
+  url: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+- type: APIReference
+  url: https://github.com/Infinidat/api_7_3
+- type: GettingStarted
+  url: https://infinisdk.readthedocs.io/en/latest/getting_started.html
+- type: Support
+  url: https://support.infinidat.com/hc/en-us
+- type: Blog
+  url: https://www.infinidat.com/en/blog
+- type: BlogRSS
+  url: https://www.infinidat.com/en/rss.xml
+- type: GitHubOrganization
+  url: https://github.com/Infinidat
+- type: TermsOfService
+  url: https://www.infinidat.com/en/sites/default/files/resource-pdfs/INFINIDAT-Customer-Product-Online-TCs.pdf
+- type: PrivacyPolicy
+  url: https://www.infinidat.com/sites/default/files/resource-pdfs/Infinidat-Privacy-Policy.pdf
+- type: Postman
+  url: postman/infinidat-infinibox-7-3-postman.json
+- type: Packages
+  url: packages/infinidat-packages.yml
+- type: SDKs
+  url: packages/infinidat-packages.yml
+- type: CLI
+  url: cli/infinidat-cli.yml
+- type: WellKnown
+  url: well-known/infinidat-well-known.yml
+- type: Authentication
+  url: authentication/infinidat-authentication.yml
+- type: Conventions
+  url: conventions/infinidat-conventions.yml
+- type: ErrorCatalog
+  url: errors/infinidat-problem-types.yml
+- type: DataModel
+  url: data-model/infinidat-data-model.yml
+- type: Events
+  url: asyncapi/infinidat-events.yml
+- type: Lifecycle
+  url: lifecycle/infinidat-lifecycle.yml
+- type: ChangeLog
+  url: changelog/infinidat-changelog.yml
+- type: Conformance
+  url: conformance/infinidat-conformance.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/infinidat-llms.txt
+- type: DomainSecurity
+  url: security/infinidat-domain-security.yml
+x-enrichment-notes:
+  pointers_deliberately_not_wired:
+  - type: Idempotency
+    reason: 'Infinidat publishes no idempotency-key contract for the InfiniBox API — no Idempotency-Key header, no replay window. See conventions/infinidat-conventions.yml.'
+  - type: MCPServer
+    reason: 'No MCP server exists. mcp/infinidat-mcp.yml is a derived candidate tool set (status: candidate), not a published server.'
+  - type: ToolCrosswalk
+    reason: 'No MCP or GraphQL surface exists to bind OpenAPI operations to.'
+  - type: AgentCard
+    reason: '/.well-known/agent-card.json and /.well-known/agent.json return 404 on every Infinidat host. Never derived.'
+  - type: StatusPage
+    reason: 'No public status page — the product is customer-hosted appliances, so there is no hosted service to report on.'
+  - type: Deprecation
+    reason: 'The x-infinidat-deprecated-api response header is a real mechanism, but there is no published deprecation-policy page.'
+  - type: Security
+    reason: 'No public vulnerability-disclosure policy, security.txt, bug bounty or PSIRT page was found.'
+  - type: Compliance
+    reason: 'A FIPS 140-2 cryptographic-module validation is published, but there is no public compliance/trust page (SOC 2, ISO 27001) to point at.'
+  - type: TrustCenter
+    reason: 'Probe found no trust.infinidat.com / security.infinidat.com / trust page.'
+  - type: Sandbox
+    reason: 'No public sandbox, simulator or trial endpoint. The API runs on customer-owned arrays.'
+  - type: DeveloperPortal
+    reason: 'code.infinidat.com is still linked from the site footer but serves an unconfigured WP Engine 404.'
+  - type: AsyncAPI
+    reason: 'A real event surface exists (asyncapi/infinidat-events.yml) but Infinidat publishes no AsyncAPI document.'
+  - type: Webhooks
+    reason: 'Event push is SNMP and SYSLOG only — there are no HTTP webhooks.'
+  - type: Pricing
+    reason: 'Enterprise storage sold through direct/partner sales; no published pricing page.'
+  - type: SignUp
+    reason: 'No self-service signup — access is via a purchased array and a customer support account.'
+  - type: Roadmap
+    reason: 'No public roadmap.'
+x-enrichment:
+  date: '2026-08-01'
+  status: enriched
+  artifacts_added: 22
+  pass: local-v1

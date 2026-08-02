@@ -1,0 +1,165 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/infinidat-infinibox-openapi.yml
+status: candidate
+summary: >-
+  No official hosted, remote or local Model Context Protocol server was found for Infinidat. There
+  is no MCP server in the Infinidat GitHub org, no @infinidat or infinidat-mcp package on npm or
+  PyPI, no listing in the public MCP registries, and no /.well-known/ MCP or OAuth discovery
+  document on any Infinidat host. The candidate tool set below is DERIVED from the InfiniBox REST
+  operations in openapi/infinidat-infinibox-openapi.yml as a proposal for an agent-facing surface.
+  It is not published by Infinidat, so no MCPServer pointer is wired in apis.yml.
+search:
+  checked:
+  - {source: 'github.com/Infinidat (100 most recently updated repos)', result: none}
+  - {source: npm registry search "infinidat", result: 'none (only infinidat-react-dygraphs, an unrelated charting wrapper)'}
+  - {source: PyPI, result: none}
+  - {source: 'Infinidat docs + support portal', result: none}
+  - {source: '/.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource on every Infinidat host', result: '404'}
+server: null
+transport: null
+url: null
+auth:
+  type: http-basic-plus-session
+  note: >-
+    Any MCP server for InfiniBox would have to hold per-array credentials, because the API is
+    served by the customer's own appliance rather than by a multi-tenant Infinidat endpoint. A
+    deployment would be self-hosted alongside the array, not a remote server Infinidat could host.
+deployment_shape:
+  hosted_remote_possible: false
+  reason: >-
+    InfiniBox has no internet-reachable API host. A real Infinidat MCP server is necessarily a
+    local/stdio or customer-hosted HTTP server configured with an array hostname and credentials.
+candidate_tools:
+- name: get_system_health
+  maps_to: GET /system/health_state
+  source_operation: openapi/infinidat-infinibox-openapi.yml#systemGetHealthState
+  description: Read the overall health state of the InfiniBox array.
+  consequence: read
+- name: get_system_ready
+  maps_to: GET /system/ready
+  source_operation: openapi/infinidat-infinibox-openapi.yml#systemGetReadyStatus
+  description: Check whether the array is ready to serve I/O.
+  consequence: read
+- name: get_system_name
+  maps_to: GET /system/name
+  source_operation: openapi/infinidat-infinibox-openapi.yml#systemGetName
+  description: Read the array's configured name.
+  consequence: read
+- name: get_system_stats
+  maps_to: GET /system/stats
+  source_operation: openapi/infinidat-infinibox-openapi.yml#systemGetStatistics
+  description: Read live performance and utilisation statistics for the array.
+  consequence: read
+- name: get_total_virtual_capacity
+  maps_to: GET /system/capacity/total_virtual_capacity
+  source_operation: openapi/infinidat-infinibox-openapi.yml#systemGetTotalVirtualCapacity
+  description: Read the array's total virtual capacity.
+  consequence: read
+- name: get_system_security
+  maps_to: GET /system/security
+  source_operation: openapi/infinidat-infinibox-openapi.yml#systemGetSecurity
+  description: Read the array's security configuration.
+  consequence: read
+- name: list_components
+  maps_to: GET /components
+  source_operation: openapi/infinidat-infinibox-openapi.yml#componentsGet
+  description: List the array's hardware component tree.
+  consequence: read
+- name: list_nodes
+  maps_to: GET /components/racks/{rack_id}/nodes
+  source_operation: openapi/infinidat-infinibox-openapi.yml#nodeGetNodes
+  description: List the controller nodes in a rack, with per-node BBU, IPMI, NTP and BIOS state.
+  consequence: read
+- name: get_node
+  maps_to: GET /components/racks/{rack_id}/nodes/{node_id}
+  source_operation: openapi/infinidat-infinibox-openapi.yml#nodeGetNode
+  description: Read one controller node, including its FC ports and drives.
+  consequence: read
+- name: list_node_ib_ports
+  maps_to: GET /components/racks/{rack_id}/nodes/{node_id}/ib_ports
+  source_operation: openapi/infinidat-infinibox-openapi.yml#nodeAGetIbPorts
+  description: List the InfiniBand ports on a node.
+  consequence: read
+- name: list_node_port_groups
+  maps_to: GET /components/racks/{rack_id}/nodes/{node_id}/pgs
+  source_operation: openapi/infinidat-infinibox-openapi.yml#nodeAGetPortGroups
+  description: List the port groups on a node.
+  consequence: read
+- name: list_support_appliances
+  maps_to: GET /components/racks/{rack_id}/support_appliances
+  source_operation: openapi/infinidat-infinibox-openapi.yml#saGetAppliances
+  description: List support appliances attached to a rack.
+  consequence: read
+- name: list_pools
+  maps_to: GET /pools
+  source_operation: openapi/infinidat-infinibox-openapi.yml#poolGetPools
+  description: List storage pools; filter by id or name.
+  consequence: read
+- name: list_filesystems
+  maps_to: GET /filesystems
+  source_operation: openapi/infinidat-infinibox-openapi.yml#fsGetAllFilesystems
+  description: List NAS filesystems.
+  consequence: read
+- name: get_filesystem
+  maps_to: GET /filesystems/{id}
+  source_operation: openapi/infinidat-infinibox-openapi.yml#fsGetFilesystemByID
+  description: Read one filesystem by id.
+  consequence: read
+- name: get_config
+  maps_to: GET /config
+  source_operation: openapi/infinidat-infinibox-openapi.yml#configGet
+  description: Read the array's configuration tree.
+  consequence: read
+- name: get_security_config
+  maps_to: GET /config/security
+  source_operation: openapi/infinidat-infinibox-openapi.yml#configSecurityGet
+  description: Read the security sub-tree of the configuration.
+  consequence: read
+- name: list_user_repositories
+  maps_to: GET /config/ldap/
+  source_operation: openapi/infinidat-infinibox-openapi.yml#ldapGetRepositories
+  description: List the configured LDAP / Active Directory user repositories.
+  consequence: read
+- name: test_user_repository
+  maps_to: POST /config/ldap/{ldap_id}/test
+  source_operation: openapi/infinidat-infinibox-openapi.yml#ldapTestLDAPByID
+  description: Test connectivity to a configured user repository.
+  consequence: read
+- name: get_entity_metadata
+  maps_to: GET /metadata/{object_id}
+  source_operation: openapi/infinidat-infinibox-openapi.yml#metatdataGetByObject
+  description: Read the key/value metadata attached to a storage entity.
+  consequence: read
+- name: set_entity_metadata
+  maps_to: PUT /metadata/{object_id}
+  source_operation: openapi/infinidat-infinibox-openapi.yml#metatdataAddToStorageEntity
+  description: Attach or update key/value metadata on a storage entity.
+  consequence: write
+- name: create_host
+  maps_to: POST /hosts
+  source_operation: openapi/infinidat-infinibox-openapi.yml#hostCreate
+  description: Register an initiator host on the array.
+  consequence: write
+excluded_from_candidate_set:
+  reason: >-
+    Operations that change identity, encryption or trust configuration are deliberately left out
+    of the candidate agent surface. An agent that can rewrite the KMS configuration, upload the
+    array's TLS key, or reorder the LDAP repositories can lock every administrator out of the
+    array or make encrypted data unreadable.
+  operations:
+  - configKMSSet
+  - configKMSUploadCACertificate
+  - configKMSUploadCertificateAndKey
+  - certificateUploadCsr
+  - ldapCreateAUserRepository
+  - ldapUpdateTheRepositoryAttributes
+  - ldapReorder
+  - ldapReload
+agent_notes:
+  approval_gate: >-
+    Any tool that mutates state must be prepared for an APPROVAL_REQUIRED /
+    APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN error, surface error.reasons[0] to a human, and only
+    then retry with ?approved=true.
+  idempotency: >-
+    There is no idempotency key. A retried mutating call may duplicate its effect.

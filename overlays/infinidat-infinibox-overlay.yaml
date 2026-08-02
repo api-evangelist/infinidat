@@ -1,0 +1,121 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Infinidat InfiniBox REST API
+  version: 1.0.0
+extends: openapi/infinidat-infinibox-openapi.yml
+x-generated: '2026-08-01'
+x-method: generated
+x-source: >-
+  Enhancements API Evangelist added on top of Infinidat's own InfiniBox 7.3 Postman collection.
+  The base OpenAPI is itself a faithful conversion of that collection; this overlay records the
+  parts that are our editorial contribution, so the two can always be told apart.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/providers/infinidat/
+    x-apievangelist-derivation:
+      base: postman/infinidat-infinibox-7-3-postman.json
+      base_source: https://github.com/Infinidat/api_7_3
+      converted: '2026-08-01'
+      faithful:
+      - paths, methods and request bodies carried over verbatim
+      - saved 200 example responses carried over verbatim (bodies over 8KB omitted for size)
+      - query-string values present in the collection kept as parameter examples
+      editorial:
+      - >-
+        Path variables were renamed from the collection's test-fixture names to their resource
+        names ({{firstRackId}} to {rack_id}, {{firstLdapId}} to {ldap_id}, {{firstSaId}} to
+        {support_appliance_id}, and {{activeNodeId}}/{{Node1Id}}/{{Node2Id}}/{{Node3Id}} to
+        {node_id}). This collapsed five node fixtures onto one real path; the original request
+        names are preserved on x-collection-aliases.
+      - >-
+        The page / page_size / fields / sort query parameters documented in Infinidat's
+        efficient-querying guide were attached to every GET. They are documented API behaviour,
+        not per-request behaviour, so they do not appear on individual collection requests.
+      - >-
+        A 401 response was attached to every operation, inferred from InfiniSDK's documented
+        re-login-on-401 handling. The collection carries no saved error responses.
+      - >-
+        The InfiniBoxEnvelope / InfiniBoxMetadata / InfiniBoxError component schemas were written
+        from the shape of the collection's saved 200 examples.
+      - >-
+        The basicAuth and sessionCookie security schemes were written from InfiniSDK's documented
+        authentication model and from the collection's /users/login and /users/logout requests.
+      not_included:
+      - >-
+        One collection request ("Login with OKTA SSO") targets an external Okta tenant rather than
+        the array, and was excluded from the InfiniBox spec.
+- target: $.info
+  update:
+    x-agent-notes:
+      approval_gate: >-
+        High-consequence operations return an error code of APPROVAL_REQUIRED or
+        APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN with a human-readable reason on error.reasons[0].
+        The caller must re-issue the identical request with ?approved=true. An agent must surface
+        that reason to a human before setting approved=true - this is InfiniBox's built-in
+        human-in-the-loop primitive.
+      no_idempotency: >-
+        There is no idempotency-key contract. Retrying a mutating request may duplicate the effect.
+      deprecation_header: >-
+        Watch the x-infinidat-deprecated-api response header; it carries a per-response
+        deprecation message.
+      appliance_local: >-
+        The base URL is the customer's own array. There is no public endpoint, no sandbox, and no
+        rate-limit contract.
+- target: $.paths['/users/login'].post
+  update:
+    description: >-
+      Establishes a session against the array. InfiniSDK re-invokes this transparently when a
+      previously authenticated request returns 401. Credentials are the InfiniBox local user or a
+      user resolved through a configured LDAP / Active Directory repository.
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      audit: required
+- target: $.paths['/system/health_state'].get
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+- target: $.paths['/system/ready'].get
+  update:
+    x-agentic-access:
+      action-class: connected
+      consequence: read
+- target: $.paths['/hosts'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      audit: required
+- target: $.paths['/system/kms/set_configuration'].put
+  update:
+    description: >-
+      Sets the external key-management configuration for encryption at rest. Misconfiguring this
+      can render encrypted data unreadable.
+    x-agentic-access:
+      action-class: acting
+      consequence: safety-critical
+      human-in-the-loop: required
+      audit: required
+- target: $.paths['/system/kms/upload_infinibox_certificate_and_key'].post
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: safety-critical
+      human-in-the-loop: required
+      audit: required
+- target: $.paths['/config/ldap/{ldap_id}'].put
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: safety-critical
+      human-in-the-loop: required
+      audit: required
+      note: Changing a user repository can lock every administrator out of the array.
+- target: $.paths['/metadata/{object_id}'].put
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      audit: required

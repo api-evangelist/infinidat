@@ -1,0 +1,66 @@
+generated: '2026-08-01'
+method: searched
+source: https://support.infinidat.com/hc/en-us/articles/360002106477-InfiniShell-session-controls
+summary: >-
+  Infinidat ships InfiniShell, the first-party command line interface to InfiniBox. It is one of
+  the three documented InfiniBox management consoles alongside InfiniAPI (the REST API) and the
+  HTML5 GUI, and it speaks to the same REST surface. It presents a POSIX-like shell with tab
+  completion over InfiniBox resources, and can emit machine-readable output, which makes it the
+  scriptable front door for operators who are not calling the API directly.
+clis:
+- name: InfiniShell
+  vendor: Infinidat
+  official: true
+  target: InfiniBox / InfiniBox SSA arrays
+  docs: https://support.infinidat.com/hc/en-us
+  docs_public: false
+  docs_note: >-
+    The InfiniShell Command Reference and the "Introduction to InfiniShell / General and Special
+    Commands / InfiniBox Commands" documentation are published as PDFs in the support portal's
+    Documentation category, which requires a customer login. Only the surface described below is
+    verifiable from public sources.
+  install:
+  - method: bundled
+    note: Distributed with the InfiniBox host tooling; also available from the Infinidat application repository.
+  - method: repository
+    url: https://repo.infinidat.com/
+    note: 'Infinidat''s public application repository (main-stable) serves host-side packages.'
+  interface:
+    style: posix-shell
+    features:
+    - tab completion over InfiniBox resources and commands
+    - cross-session command history
+    - interactive and single-command (non-interactive) invocation
+  output_modes:
+  - {mode: table, default: true}
+  - {mode: csv}
+  - {mode: json, note: 'the mode to use when scripting against InfiniShell rather than the REST API'}
+  options:
+  - {name: request timeout, description: 'per-request timeout for the underlying API calls'}
+  - {name: SSL/TLS, description: 'toggle encrypted transport to the array management interface'}
+  config_file: infinishellrc
+  config_note: Session controls and defaults are persisted in the infinishellrc configuration file.
+  command_surface:
+    documented_publicly: false
+    note: >-
+      The full command tree is only published inside the login-walled InfiniShell Command
+      Reference. It is deliberately NOT reproduced or guessed here. The resource families the
+      commands operate over are the same ones the REST API and the Ansible collection expose -
+      system, config, components (racks / nodes / ports / drives), pools, volumes, filesystems,
+      hosts and clusters, exports, network spaces, users and user repositories, metadata, events
+      and notification rules, replication, snapshots and snapshot policies, QoS.
+other_command_line_tooling:
+- name: ansible-galaxy collection infinidat.infinibox
+  kind: automation-modules
+  official: true
+  url: https://galaxy.ansible.com/ui/repo/published/infinidat/infinibox/
+  note: >-
+    Not a CLI, but the declarative command surface most Infinidat customers automate with.
+    21 modules over the same resources; see packages/infinidat-packages.yml.
+- name: infinisdk
+  kind: sdk-with-console-entrypoints
+  official: true
+  url: https://pypi.org/project/infinisdk/
+  note: >-
+    InfiniSDK depends on click and installs console scripts, but Infinidat documents it as an SDK
+    rather than as a CLI product.

@@ -1,0 +1,127 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/infinidat-infinibox-openapi.yml
+sources:
+- openapi/infinidat-infinibox-openapi.yml
+- conventions/infinidat-conventions.yml
+- errors/infinidat-problem-types.yml
+- https://github.com/Infinidat/infinibox-csi-driver
+- https://github.com/Infinidat/infinidat_openstack
+- https://www.infinidat.com/en/news/press-releases/infinidat-cryptographic-module-achieves-federal-security-validation
+summary: >-
+  The InfiniBox management API is a proprietary REST surface: JSON over HTTPS with a consistent
+  result/metadata/error envelope, but no adoption of the cross-cutting web-API standards
+  (OAuth 2.0, OIDC, RFC 9457, JSON:API, OData, SCIM). Where Infinidat does conform to industry
+  standards, it is in the storage and infrastructure ecosystem - CSI, OpenStack Cinder, SMI-like
+  storage integrations, FIPS-validated cryptography - not in the API-design ecosystem.
+standards:
+- id: openapi
+  conforms: false
+  evidence: >-
+    Infinidat publishes no OpenAPI or Swagger document. openapi/infinidat-infinibox-openapi.yml is
+    an API Evangelist derivation from Infinidat's own 7.3 Postman collection, not a provider artifact.
+- id: postman-collection-v2
+  conforms: true
+  evidence: 'github.com/Infinidat/api_7_3 - "InfiniBox 7.3 API", schema.getpostman.com/json/collection/v2.0.0'
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme; the API uses HTTP Basic plus a session cookie.
+- id: openid-connect
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any Infinidat host.
+- id: saml-2.0
+  conforms: true
+  evidence: >-
+    The 7.3 collection includes an Okta SAML SSO login request, and the Ansible collection ships
+    an infini_sso module for configuring SSO on the array.
+  scope: array authentication, not the REST API's own token model
+- id: ldap-active-directory
+  conforms: true
+  evidence: '/config/ldap CRUD, reload, reorder, resolve_domain, and connectivity/group test operations in the spec'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are returned as a proprietary error object on the response envelope
+    ({code, message, severity, reasons}); no application/problem+json is offered.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    Deprecation is signalled with a proprietary x-infinidat-deprecated-api response header rather
+    than the RFC 8594 Deprecation/Sunset pair.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on every Infinidat host.
+- id: json-api
+  conforms: false
+  evidence: Proprietary result/metadata/error envelope; no JSON:API media type or document structure.
+- id: odata
+  conforms: false
+- id: scim
+  conforms: false
+  evidence: User and user-repository management is a proprietary /config/ldap and users surface.
+- id: pagination
+  conforms: true
+  evidence: 'page + page_size request params; page/page_size/pages_total/number_of_objects on the metadata envelope'
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or replay window is documented anywhere in the public surface.
+- id: rate-limit-headers
+  conforms: false
+  evidence: No rate-limit contract is published; the API is appliance-local.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    A real event surface exists (queryable events, SNMP/SYSLOG notification targets) but no
+    AsyncAPI document is published. See asyncapi/infinidat-events.yml.
+- id: container-storage-interface
+  conforms: true
+  evidence: >-
+    github.com/Infinidat/infinibox-csi-driver - "the official Container Storage Interface (CSI)
+    Driver for Infinidat InfiniBox storage systems", Apache-2.0, Helm and Operator installable.
+  scope: Kubernetes storage integration
+- id: openstack-cinder
+  conforms: true
+  evidence: >-
+    github.com/Infinidat/infinidat_openstack and Infinidat's Cinder driver, plus
+    infinidat-powervc-cinder for IBM PowerVC and a tripleo-deployment-configs repo for RHEL
+    OpenStack Platform.
+- id: openstack-manila
+  conforms: true
+  evidence: github.com/Infinidat/manila fork for shared filesystem management.
+- id: fips-140-2
+  conforms: true
+  evidence: >-
+    Infinidat press release "Infinidat Cryptographic Module Achieves Federal Security Validation";
+    independently reported by Corsec Security as a completed FIPS 140-2 validation.
+  scope: the cryptographic module in the product, not the API
+  caveat: >-
+    This is a product cryptography validation, not an organisational compliance certification.
+    Infinidat publishes no public trust center and no SOC 2 / ISO 27001 attestation page, so no
+    Compliance or TrustCenter pointer is wired.
+- id: nvme-of
+  conforms: true
+  evidence: 'First-party infi.dtypes.nqn (NVMe Qualified Name) datatype used by InfiniSDK.'
+- id: iscsi
+  conforms: true
+  evidence: 'First-party infi.dtypes.iqn and infi.iscsiapi packages.'
+- id: fibre-channel
+  conforms: true
+  evidence: 'First-party infi.dtypes.wwn and infi.hbaapi packages; fc_ports with wwnn/wwpn in the node response.'
+- id: nfs
+  conforms: true
+  evidence: 'InfiniSDK documents nfs_server_capabilities; the Ansible collection ships infini_export / infini_export_client.'
+- id: smb-cifs
+  conforms: true
+  evidence: 'InfiniSDK documents smb_server_capabilities, smb_users_and_groups and active_directory_domains; the org publishes smb.cli and SLP-module.'
+- id: snmp
+  conforms: true
+  evidence: SNMP notification targets for event forwarding.
+- id: syslog
+  conforms: true
+  evidence: SYSLOG notification targets for event forwarding.
+- id: kmip-external-key-management
+  conforms: partial
+  evidence: >-
+    /system/kms configuration with CA-certificate and array certificate/key upload; the saved
+    example targets a Gemalto/Thales KeySecure KMS. Infinidat does not publish an explicit KMIP
+    conformance claim, so this is recorded as partial.

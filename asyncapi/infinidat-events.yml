@@ -1,0 +1,75 @@
+generated: '2026-08-01'
+method: searched
+source: https://infinisdk.readthedocs.io/en/latest/events.html
+sources:
+- https://infinisdk.readthedocs.io/en/latest/events.html
+- https://infinisdk.readthedocs.io/en/latest/notification_rules.html
+- https://github.com/Infinidat/ansible-infinidat-collection
+spec_type: none
+asyncapi_published: false
+webhooks: false
+summary: >-
+  InfiniBox has a real event surface, but it is not an AsyncAPI and it is not webhooks. Events are
+  produced by the array, read back over the same REST API as a queryable, sequence-numbered
+  collection, and pushed outward only over SNMP and SYSLOG via notification targets and rules.
+  There is no HTTP callback / webhook delivery, no streaming endpoint, and no published AsyncAPI
+  document. This artifact records the event surface honestly rather than manufacturing an AsyncAPI
+  for it - no AsyncAPI or Webhooks pointer is wired in apis.yml.
+delivery:
+  model: poll-and-forward
+  pull:
+    style: REST collection
+    surface: system.events in InfiniSDK (the /events collection on the array's REST API)
+    query:
+      filterable_fields: [code, seq_num, level, id]
+      sortable: true
+      example_sdk: "system.events.find(code='VOLUME_CREATED')"
+      example_sdk_seq: 'system.events.find(Q.seq_num >= 1004)'
+      note: >-
+        Events use the same page/page_size/fields/sort/filter conventions as every other InfiniBox
+        collection (see conventions/infinidat-conventions.yml).
+  push:
+    transports:
+    - {protocol: SNMP, note: 'SNMP trap destination configured as a notification target'}
+    - {protocol: SYSLOG, note: 'syslog destination configured as a notification target'}
+    http_callbacks: false
+    streaming: false
+event_model:
+  identifier: code
+  sequence_field: seq_num
+  levels: [CRITICAL, WARNING, INFO]
+  levels_note: >-
+    CRITICAL and WARNING are quoted verbatim in the InfiniSDK notification-rules documentation;
+    the full level enumeration ships in the login-walled product documentation.
+  observed_codes:
+  - VOLUME_CREATED
+  - VOLUME_DELETED
+  - SNAPSHOT_POLICY_CREATED
+  - SNAPSHOT_SCHEDULE_CREATED
+  - USER_LOGIN_SUCCESS
+  - DISK_SPACE_LOW
+  - LINK_DOWN
+  - LINK_UP
+  observed_codes_note: >-
+    These are the event codes that appear verbatim in Infinidat's public InfiniSDK documentation.
+    The complete event-code registry is not published on a public URL; it is not guessed here.
+subscription:
+  objects:
+  - name: notification_target
+    description: An SNMP or SYSLOG destination.
+    sdk: system.notification_targets.find(protocol="SNMP")
+    ansible_module: infini_notification_target
+  - name: notification_rule
+    description: >-
+      Binds a target to a filter over events. Filters by event_level (e.g. ["CRITICAL","WARNING"])
+      and/or by explicit event codes (event_code="DISK_SPACE_LOW", or an include list such as
+      ["LINK_DOWN","LINK_UP"]).
+    sdk: system.notification_rules.create(name=..., target=target, event_level=["CRITICAL"])
+    ansible_module: infini_notification_rule
+  - name: event
+    description: Read/query the event log.
+    ansible_module: infini_event
+gaps:
+- No AsyncAPI document is published for the InfiniBox event surface.
+- No HTTP webhook / callback delivery exists - only SNMP and SYSLOG.
+- The full event-code and event-level registries are behind the support portal login.
