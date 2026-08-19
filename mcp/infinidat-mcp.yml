@@ -2,34 +2,37 @@ generated: '2026-08-01'
 method: derived
 source: openapi/infinidat-infinibox-openapi.yml
 status: candidate
-summary: >-
-  No official hosted, remote or local Model Context Protocol server was found for Infinidat. There
-  is no MCP server in the Infinidat GitHub org, no @infinidat or infinidat-mcp package on npm or
-  PyPI, no listing in the public MCP registries, and no /.well-known/ MCP or OAuth discovery
-  document on any Infinidat host. The candidate tool set below is DERIVED from the InfiniBox REST
-  operations in openapi/infinidat-infinibox-openapi.yml as a proposal for an agent-facing surface.
-  It is not published by Infinidat, so no MCPServer pointer is wired in apis.yml.
+summary: No official hosted, remote or local Model Context Protocol server was found for Infinidat. There
+  is no MCP server in the Infinidat GitHub org, no @infinidat or infinidat-mcp package on npm or PyPI,
+  no listing in the public MCP registries, and no /.well-known/ MCP or OAuth discovery document on any
+  Infinidat host. The candidate tool set below is DERIVED from the InfiniBox REST operations in openapi/infinidat-infinibox-openapi.yml
+  as a proposal for an agent-facing surface. It is not published by Infinidat, so no MCPServer pointer
+  is wired in apis.yml.
 search:
   checked:
-  - {source: 'github.com/Infinidat (100 most recently updated repos)', result: none}
-  - {source: npm registry search "infinidat", result: 'none (only infinidat-react-dygraphs, an unrelated charting wrapper)'}
-  - {source: PyPI, result: none}
-  - {source: 'Infinidat docs + support portal', result: none}
-  - {source: '/.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource on every Infinidat host', result: '404'}
+  - source: github.com/Infinidat (100 most recently updated repos)
+    result: none
+  - source: npm registry search "infinidat"
+    result: none (only infinidat-react-dygraphs, an unrelated charting wrapper)
+  - source: PyPI
+    result: none
+  - source: Infinidat docs + support portal
+    result: none
+  - source: /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource on every
+      Infinidat host
+    result: '404'
 server: null
 transport: null
 url: null
 auth:
   type: http-basic-plus-session
-  note: >-
-    Any MCP server for InfiniBox would have to hold per-array credentials, because the API is
-    served by the customer's own appliance rather than by a multi-tenant Infinidat endpoint. A
-    deployment would be self-hosted alongside the array, not a remote server Infinidat could host.
+  note: Any MCP server for InfiniBox would have to hold per-array credentials, because the API is served
+    by the customer's own appliance rather than by a multi-tenant Infinidat endpoint. A deployment would
+    be self-hosted alongside the array, not a remote server Infinidat could host.
 deployment_shape:
   hosted_remote_possible: false
-  reason: >-
-    InfiniBox has no internet-reachable API host. A real Infinidat MCP server is necessarily a
-    local/stdio or customer-hosted HTTP server configured with an array hostname and credentials.
+  reason: InfiniBox has no internet-reachable API host. A real Infinidat MCP server is necessarily a local/stdio
+    or customer-hosted HTTP server configured with an array hostname and credentials.
 candidate_tools:
 - name: get_system_health
   maps_to: GET /system/health_state
@@ -142,11 +145,10 @@ candidate_tools:
   description: Register an initiator host on the array.
   consequence: write
 excluded_from_candidate_set:
-  reason: >-
-    Operations that change identity, encryption or trust configuration are deliberately left out
-    of the candidate agent surface. An agent that can rewrite the KMS configuration, upload the
-    array's TLS key, or reorder the LDAP repositories can lock every administrator out of the
-    array or make encrypted data unreadable.
+  reason: Operations that change identity, encryption or trust configuration are deliberately left out
+    of the candidate agent surface. An agent that can rewrite the KMS configuration, upload the array's
+    TLS key, or reorder the LDAP repositories can lock every administrator out of the array or make encrypted
+    data unreadable.
   operations:
   - configKMSSet
   - configKMSUploadCACertificate
@@ -157,9 +159,11 @@ excluded_from_candidate_set:
   - ldapReorder
   - ldapReload
 agent_notes:
-  approval_gate: >-
-    Any tool that mutates state must be prepared for an APPROVAL_REQUIRED /
-    APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN error, surface error.reasons[0] to a human, and only
-    then retry with ?approved=true.
-  idempotency: >-
-    There is no idempotency key. A retried mutating call may duplicate its effect.
+  approval_gate: Any tool that mutates state must be prepared for an APPROVAL_REQUIRED / APPROVAL_REQUIRED_VOLUME_HAS_CHILDREN
+    error, surface error.reasons[0] to a human, and only then retry with ?approved=true.
+  idempotency: There is no idempotency key. A retried mutating call may duplicate its effect.
+deployment:
+  mode: none
+  verified: derived
+  checked: '2026-08-12'
+  source: catalog MCP census

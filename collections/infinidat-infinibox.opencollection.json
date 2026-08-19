@@ -1,0 +1,1301 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Infinidat InfiniBox REST API (7.3)",
+    "version": "7.3"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "COMPONENTS Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "COMPONENTS Get"
+        },
+        {
+          "info": {
+            "name": "NODE Get Nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components/racks/:rack_id/nodes",
+            "params": [
+              {
+                "name": "rack_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "NODE Get Nodes"
+        },
+        {
+          "info": {
+            "name": "NODE Get Node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components/racks/:rack_id/nodes/:node_id",
+            "params": [
+              {
+                "name": "rack_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "NODE Get Node"
+        },
+        {
+          "info": {
+            "name": "NODE(A) Get Ib Ports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components/racks/:rack_id/nodes/:node_id/ib_ports",
+            "params": [
+              {
+                "name": "rack_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "NODE(A) Get Ib Ports"
+        },
+        {
+          "info": {
+            "name": "NODE(A) Get Port Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components/racks/:rack_id/nodes/:node_id/pgs",
+            "params": [
+              {
+                "name": "rack_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "NODE(A) Get Port Groups"
+        },
+        {
+          "info": {
+            "name": "SA Get Appliances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components/racks/:rack_id/support_appliances",
+            "params": [
+              {
+                "name": "rack_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SA Get Appliances"
+        },
+        {
+          "info": {
+            "name": "SA Get first Appliance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/components/racks/:rack_id/support_appliances/:support_appliance_id",
+            "params": [
+              {
+                "name": "rack_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "support_appliance_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SA Get first Appliance"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "CONFIG Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/config",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "CONFIG Get"
+        },
+        {
+          "info": {
+            "name": "LDAP Create a User Repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "LDAP Create a User Repository"
+        },
+        {
+          "info": {
+            "name": "LDAP Get Repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "LDAP Get Repositories"
+        },
+        {
+          "info": {
+            "name": "LDAP Reload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/reload"
+          },
+          "docs": "LDAP Reload"
+        },
+        {
+          "info": {
+            "name": "LDAP Resolve Domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/resolve_domain"
+          },
+          "docs": "LDAP Resolve Domain"
+        },
+        {
+          "info": {
+            "name": "LDAP Reorder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/set_order",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "LDAP Reorder"
+        },
+        {
+          "info": {
+            "name": "LDAP Test Repository Comminucation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/test",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "LDAP Test Repository Comminucation"
+        },
+        {
+          "info": {
+            "name": "LDAP Get first Repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/:ldap_id",
+            "params": [
+              {
+                "name": "ldap_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "LDAP Get first Repository"
+        },
+        {
+          "info": {
+            "name": "LDAP Update the repository attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/:ldap_id",
+            "params": [
+              {
+                "name": "ldap_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "LDAP Update the repository attributes"
+        },
+        {
+          "info": {
+            "name": "LDAP Test LDAP by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/:ldap_id/test",
+            "params": [
+              {
+                "name": "ldap_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              }
+            ]
+          },
+          "docs": "LDAP Test LDAP by ID"
+        },
+        {
+          "info": {
+            "name": "LDAP Test Group by LDAP ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/config/ldap/:ldap_id/test_group",
+            "params": [
+              {
+                "name": "ldap_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              }
+            ]
+          },
+          "docs": "LDAP Test Group by LDAP ID"
+        },
+        {
+          "info": {
+            "name": "CONFIG Security Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/config/security",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "CONFIG Security Get"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "filesystems",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "FS Get all filesystems",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/filesystems",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "FS Get all filesystems"
+        },
+        {
+          "info": {
+            "name": "FS Get filesystem by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/filesystems/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "FS Get filesystem by ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "hosts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "HOST Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/hosts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "HOST Create"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Metatdata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/metadata/",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "Metatdata"
+        },
+        {
+          "info": {
+            "name": "Metatdata Get by Object",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/metadata/:object_id",
+            "params": [
+              {
+                "name": "object_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "Metatdata Get by Object"
+        },
+        {
+          "info": {
+            "name": "Metatdata Add to Storage Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{infinibox_host}/api/rest/metadata/:object_id",
+            "params": [
+              {
+                "name": "object_id",
+                "value": "",
+                "type": "path",
+                "description": "Path variable carried verbatim from the InfiniBox 7.3 Postman collection."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Metatdata Add to Storage Entity"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "pools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "POOL Get Pools",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/pools",
+            "params": [
+              {
+                "name": "id",
+                "value": "358",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "orens-pool1",
+                "type": "query"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "POOL Get Pools"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "system",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "SYSTEM Get Total Virtual Capacity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/capacity/total_virtual_capacity",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get Total Virtual Capacity"
+        },
+        {
+          "info": {
+            "name": "Certificate upload csr",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/system/certificates/upload_csr"
+          },
+          "docs": "Certificate upload csr"
+        },
+        {
+          "info": {
+            "name": "SYSTEM Get EULA",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/eula",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get EULA"
+        },
+        {
+          "info": {
+            "name": "SYSTEM Get Health State",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/health_state",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get Health State"
+        },
+        {
+          "info": {
+            "name": "CONFIG KMS Get",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/kms",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "CONFIG KMS Get"
+        },
+        {
+          "info": {
+            "name": "CONFIG KMS Set",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{infinibox_host}/api/rest/system/kms/set_configuration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "CONFIG KMS Set"
+        },
+        {
+          "info": {
+            "name": "CONFIG KMS Upload Certificate and key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/system/kms/upload_infinibox_certificate_and_key"
+          },
+          "docs": "CONFIG KMS Upload Certificate and key"
+        },
+        {
+          "info": {
+            "name": "CONFIG KMS Upload CA Certificate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/system/kms/upload_kms_ca_certificate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "CONFIG KMS Upload CA Certificate"
+        },
+        {
+          "info": {
+            "name": "SYSTEM Get Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/name",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get Name"
+        },
+        {
+          "info": {
+            "name": "SYSTEM Get Ready status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/ready",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get Ready status"
+        },
+        {
+          "info": {
+            "name": "SYSTEM Get Security",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/security",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get Security"
+        },
+        {
+          "info": {
+            "name": "SYSTEM Get Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{infinibox_host}/api/rest/system/stats",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number (InfiniSDK efficient-querying guide)."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Objects per page; default 50, maximum 1000."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to return."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by; prefix with - to reverse."
+              }
+            ]
+          },
+          "docs": "SYSTEM Get Statistics"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/users/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Login"
+        },
+        {
+          "info": {
+            "name": "Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{infinibox_host}/api/rest/users/logout"
+          },
+          "docs": "Logout"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
