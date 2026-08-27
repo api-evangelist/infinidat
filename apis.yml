@@ -29,35 +29,94 @@ tags:
 - Infrastructure
 - On-Premises
 apis:
-- aid: infinidat:infinibox-rest-api
-  name: InfiniBox REST API (InfiniAPI)
-  description: 'The management REST API served by every InfiniBox and InfiniBox SSA array on its own
-    management interface at https://<array>/api/rest. It exposes system health and readiness, capacity
-    and statistics, hardware components (racks, nodes, ports, drives, support appliances), pools,
-    filesystems, hosts, entity metadata, LDAP/Active Directory user repositories, KMS and certificate
-    configuration, and session login/logout. Responses use a consistent envelope of result / metadata /
-    error, with page + page_size pagination, a fields selector, sort, and eq:/ne:/like: filter
-    operators. High-consequence operations are gated behind an explicit ?approved=true re-issue.
-    Because the API is served by the appliance itself there is no single public base URL — the server
-    is a template over the customer''s own array hostname.'
+- aid: infinidat:infinidat-components-api
+  name: Infinidat Components API
+  description: The components API from Infinidat — 7 operation(s) for components.
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
-  - Storage
-  - Infrastructure
-  - Management
-  - Monitoring
+  - components
   properties:
   - type: OpenAPI
-    url: openapi/infinidat-infinibox-openapi.yml
-  - type: Overlay
-    url: overlays/infinidat-infinibox-overlay.yaml
+    url: openapi/infinidat-components-api-openapi.yml
+- aid: infinidat:infinidat-config-api
+  name: Infinidat Config API
+  description: The config API from Infinidat — 11 operation(s) for config.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - config
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-config-api-openapi.yml
+- aid: infinidat:infinidat-filesystems-api
+  name: Infinidat Filesystems API
+  description: The filesystems API from Infinidat — 2 operation(s) for filesystems.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - filesystems
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-filesystems-api-openapi.yml
+- aid: infinidat:infinidat-hosts-api
+  name: Infinidat Hosts API
+  description: The hosts API from Infinidat — 1 operation(s) for hosts.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - hosts
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-hosts-api-openapi.yml
+- aid: infinidat:infinidat-metadata-api
+  name: Infinidat Metadata API
+  description: The metadata API from Infinidat — 2 operation(s) for metadata.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-metadata-api-openapi.yml
+- aid: infinidat:infinidat-pools-api
+  name: Infinidat Pools API
+  description: The pools API from Infinidat — 1 operation(s) for pools.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - pools
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-pools-api-openapi.yml
+- aid: infinidat:infinidat-system-api
+  name: Infinidat System API
+  description: The system API from Infinidat — 12 operation(s) for system.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - system
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-system-api-openapi.yml
+- aid: infinidat:infinidat-users-api
+  name: Infinidat Users API
+  description: The users API from Infinidat — 2 operation(s) for users.
+  humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
+  baseURL: https://{infinibox_host}/api/rest
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/infinidat-users-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/infinidat-infinibox-overlay.yaml
 - type: Website
   url: https://www.infinidat.com/en
 - type: Documentation
