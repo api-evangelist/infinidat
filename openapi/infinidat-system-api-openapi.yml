@@ -1,0 +1,392 @@
+openapi: 3.2.0
+info:
+  title: Infinidat InfiniBox REST API (7.3) System API
+  version: '7.3'
+  summary: Management REST API served by every InfiniBox / InfiniBox SSA array.
+  description: 'Derived faithfully from Infinidat''s own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3). The InfiniBox REST API is served by each array on-premises at https://<infinibox-host>/api/rest, so there is no single public base URL; the server below is a template. Operations, paths, parameters, request bodies and example responses are carried over verbatim from the collection - nothing has been invented. This is a partial surface: the collection carries 47 requests (46 against the array, one external Okta SSO redirect), which normalize to 40 operations across 38 paths. The full InfiniAPI surface documented on support.infinidat.com is larger.'
+  contact:
+    name: INFINIDAT Support
+    url: https://support.infinidat.com/hc/en-us
+  x-derived-from: postman/infinidat-infinibox-7-3-postman.json
+  x-derivation-method: derived
+servers:
+- url: https://{infinibox_host}/api/rest
+  description: The management API of a single InfiniBox array (the collection's {{sutURI}} variable).
+  variables:
+    infinibox_host:
+      default: infinibox.example.com
+      description: Hostname or management IP of the InfiniBox system.
+security:
+- basicAuth: []
+- sessionCookie: []
+tags:
+- name: system
+paths:
+  /system/capacity/total_virtual_capacity:
+    get:
+      operationId: systemGetTotalVirtualCapacity
+      summary: SYSTEM Get Total Virtual Capacity
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/certificates/upload_csr:
+    post:
+      operationId: certificateUploadCsr
+      summary: Certificate upload csr
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+  /system/eula:
+    get:
+      operationId: systemGetEULA
+      summary: SYSTEM Get EULA
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/health_state:
+    get:
+      operationId: systemGetHealthState
+      summary: SYSTEM Get Health State
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/kms:
+    get:
+      operationId: configKMSGet
+      summary: CONFIG KMS Get
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/kms/set_configuration:
+    put:
+      operationId: configKMSSet
+      summary: CONFIG KMS Set
+      tags:
+      - system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              kms_username: iboxffff
+              kms_password: abcd
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+  /system/kms/upload_infinibox_certificate_and_key:
+    post:
+      operationId: configKMSUploadCertificateAndKey
+      summary: CONFIG KMS Upload Certificate and key
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+  /system/kms/upload_kms_ca_certificate:
+    post:
+      operationId: configKMSUploadCACertificate
+      summary: CONFIG KMS Upload CA Certificate
+      tags:
+      - system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{ \n    \"kms_ca_certificate\": \"-----BEGIN CERTIFICATE-----\\n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\\nKxTsOg==\\n-----END CERTIFICATE-----\\n\""
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+  /system/name:
+    get:
+      operationId: systemGetName
+      summary: SYSTEM Get Name
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/ready:
+    get:
+      operationId: systemGetReadyStatus
+      summary: SYSTEM Get Ready status
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/security:
+    get:
+      operationId: systemGetSecurity
+      summary: SYSTEM Get Security
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /system/stats:
+    get:
+      operationId: systemGetStatistics
+      summary: SYSTEM Get Statistics
+      tags:
+      - system
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+components:
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 50
+        maximum: 1000
+      description: Objects per page; default 50, maximum 1000.
+    sort:
+      name: sort
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Field to sort by; prefix with - to reverse.
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number (InfiniSDK efficient-querying guide).
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
+  schemas:
+    InfiniBoxError:
+      type: object
+      description: Error object carried on the envelope's error field.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
+    InfiniBoxMetadata:
+      type: object
+      description: Pagination / readiness metadata returned alongside every result.
+      properties:
+        ready:
+          type: boolean
+        number_of_objects:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        pages_total:
+          type: integer
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication with an InfiniBox user, as used by InfiniSDK.
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: sessionid
+      description: Session established by POST /users/login and torn down by POST /users/logout.

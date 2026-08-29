@@ -1,0 +1,207 @@
+openapi: 3.2.0
+info:
+  title: Infinidat InfiniBox REST API (7.3) Metadata API
+  version: '7.3'
+  summary: Management REST API served by every InfiniBox / InfiniBox SSA array.
+  description: 'Derived faithfully from Infinidat''s own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3). The InfiniBox REST API is served by each array on-premises at https://<infinibox-host>/api/rest, so there is no single public base URL; the server below is a template. Operations, paths, parameters, request bodies and example responses are carried over verbatim from the collection - nothing has been invented. This is a partial surface: the collection carries 47 requests (46 against the array, one external Okta SSO redirect), which normalize to 40 operations across 38 paths. The full InfiniAPI surface documented on support.infinidat.com is larger.'
+  contact:
+    name: INFINIDAT Support
+    url: https://support.infinidat.com/hc/en-us
+  x-derived-from: postman/infinidat-infinibox-7-3-postman.json
+  x-derivation-method: derived
+servers:
+- url: https://{infinibox_host}/api/rest
+  description: The management API of a single InfiniBox array (the collection's {{sutURI}} variable).
+  variables:
+    infinibox_host:
+      default: infinibox.example.com
+      description: Hostname or management IP of the InfiniBox system.
+security:
+- basicAuth: []
+- sessionCookie: []
+tags:
+- name: metadata
+paths:
+  /metadata/:
+    get:
+      operationId: metatdata
+      summary: Metatdata
+      tags:
+      - metadata
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+      x-collection-aliases:
+      - Volumes
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+  /metadata/{object_id}:
+    get:
+      operationId: metatdataGetByObject
+      summary: Metatdata Get by Object
+      tags:
+      - metadata
+      parameters:
+      - name: object_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Path variable carried verbatim from the InfiniBox 7.3 Postman collection.
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/fields'
+      - $ref: '#/components/parameters/sort'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+    put:
+      operationId: metatdataAddToStorageEntity
+      summary: Metatdata Add to Storage Entity
+      tags:
+      - metadata
+      parameters:
+      - name: object_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Path variable carried verbatim from the InfiniBox 7.3 Postman collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              fs: ext2
+              obj:
+                xxx: yyy
+                zzz:
+                - 1
+                - 2
+                - 3
+                - 4
+                - 5
+                fff:
+                  ggg: ppp
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxEnvelope'
+        '401':
+          description: Unauthenticated. The session is missing, expired or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InfiniBoxError'
+components:
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 50
+        maximum: 1000
+      description: Objects per page; default 50, maximum 1000.
+    sort:
+      name: sort
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Field to sort by; prefix with - to reverse.
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number (InfiniSDK efficient-querying guide).
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
+  schemas:
+    InfiniBoxError:
+      type: object
+      description: Error object carried on the envelope's error field.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
+    InfiniBoxMetadata:
+      type: object
+      description: Pagination / readiness metadata returned alongside every result.
+      properties:
+        ready:
+          type: boolean
+        number_of_objects:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        pages_total:
+          type: integer
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication with an InfiniBox user, as used by InfiniSDK.
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: sessionid
+      description: Session established by POST /users/login and torn down by POST /users/logout.
