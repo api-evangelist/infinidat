@@ -47,6 +47,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - Components
+  tags_raw:
   - components
   properties:
   - type: OpenAPI
@@ -57,6 +59,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - Config
+  tags_raw:
   - config
   properties:
   - type: OpenAPI
@@ -67,6 +71,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - Filesystem
+  tags_raw:
   - filesystems
   properties:
   - type: OpenAPI
@@ -77,6 +83,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - Hosts
+  tags_raw:
   - hosts
   properties:
   - type: OpenAPI
@@ -87,6 +95,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - Metadata
+  tags_raw:
   - metadata
   properties:
   - type: OpenAPI
@@ -97,6 +107,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - Pools
+  tags_raw:
   - pools
   properties:
   - type: OpenAPI
@@ -107,6 +119,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - System
+  tags_raw:
   - system
   properties:
   - type: OpenAPI
@@ -117,6 +131,8 @@ apis:
   humanURL: https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation
   baseURL: https://{infinibox_host}/api/rest
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
