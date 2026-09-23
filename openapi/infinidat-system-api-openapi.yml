@@ -3,7 +3,7 @@ info:
   title: Infinidat InfiniBox REST API (7.3) System API
   version: '7.3'
   summary: Management REST API served by every InfiniBox / InfiniBox SSA array.
-  description: 'Derived faithfully from Infinidat''s own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3). The InfiniBox REST API is served by each array on-premises at https://<infinibox-host>/api/rest, so there is no single public base URL; the server below is a template. Operations, paths, parameters, request bodies and example responses are carried over verbatim from the collection - nothing has been invented. This is a partial surface: the collection carries 47 requests (46 against the array, one external Okta SSO redirect), which normalize to 40 operations across 38 paths. The full InfiniAPI surface documented on support.infinidat.com is larger.'
+  description: Derived faithfully from Infinidat's own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3).
   contact:
     name: INFINIDAT Support
     url: https://support.infinidat.com/hc/en-us
@@ -20,14 +20,14 @@ security:
 - basicAuth: []
 - sessionCookie: []
 tags:
-- name: system
+- name: System
 paths:
   /system/capacity/total_virtual_capacity:
     get:
       operationId: systemGetTotalVirtualCapacity
       summary: SYSTEM Get Total Virtual Capacity
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -51,7 +51,7 @@ paths:
       operationId: certificateUploadCsr
       summary: Certificate upload csr
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -70,7 +70,7 @@ paths:
       operationId: systemGetEULA
       summary: SYSTEM Get EULA
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -94,7 +94,7 @@ paths:
       operationId: systemGetHealthState
       summary: SYSTEM Get Health State
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -118,7 +118,7 @@ paths:
       operationId: configKMSGet
       summary: CONFIG KMS Get
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -142,7 +142,7 @@ paths:
       operationId: configKMSSet
       summary: CONFIG KMS Set
       tags:
-      - system
+      - System
       requestBody:
         required: true
         content:
@@ -170,7 +170,7 @@ paths:
       operationId: configKMSUploadCertificateAndKey
       summary: CONFIG KMS Upload Certificate and key
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -189,7 +189,7 @@ paths:
       operationId: configKMSUploadCACertificate
       summary: CONFIG KMS Upload CA Certificate
       tags:
-      - system
+      - System
       requestBody:
         required: true
         content:
@@ -215,7 +215,7 @@ paths:
       operationId: systemGetName
       summary: SYSTEM Get Name
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -239,7 +239,7 @@ paths:
       operationId: systemGetReadyStatus
       summary: SYSTEM Get Ready status
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -263,7 +263,7 @@ paths:
       operationId: systemGetSecurity
       summary: SYSTEM Get Security
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -287,7 +287,7 @@ paths:
       operationId: systemGetStatistics
       summary: SYSTEM Get Statistics
       tags:
-      - system
+      - System
       responses:
         '200':
           description: Successful response.
@@ -307,39 +307,19 @@ paths:
       - $ref: '#/components/parameters/fields'
       - $ref: '#/components/parameters/sort'
 components:
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 50
-        maximum: 1000
-      description: Objects per page; default 50, maximum 1000.
-    sort:
-      name: sort
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Field to sort by; prefix with - to reverse.
-    page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 1
-      description: 1-based page number (InfiniSDK efficient-querying guide).
-    fields:
-      name: fields
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
   schemas:
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
     InfiniBoxError:
       type: object
       description: Error object carried on the envelope's error field.
@@ -368,18 +348,38 @@ components:
           type: integer
         pages_total:
           type: integer
-    InfiniBoxEnvelope:
-      type: object
-      description: Standard InfiniBox response envelope observed in the collection's saved examples.
-      properties:
-        result:
-          description: The requested object or array of objects.
-        metadata:
-          $ref: '#/components/schemas/InfiniBoxMetadata'
-        error:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/InfiniBoxError'
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 50
+        maximum: 1000
+      description: Objects per page; default 50, maximum 1000.
+    sort:
+      name: sort
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Field to sort by; prefix with - to reverse.
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number (InfiniSDK efficient-querying guide).
   securitySchemes:
     basicAuth:
       type: http

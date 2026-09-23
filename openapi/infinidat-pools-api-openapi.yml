@@ -3,7 +3,7 @@ info:
   title: Infinidat InfiniBox REST API (7.3) Pools API
   version: '7.3'
   summary: Management REST API served by every InfiniBox / InfiniBox SSA array.
-  description: 'Derived faithfully from Infinidat''s own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3). The InfiniBox REST API is served by each array on-premises at https://<infinibox-host>/api/rest, so there is no single public base URL; the server below is a template. Operations, paths, parameters, request bodies and example responses are carried over verbatim from the collection - nothing has been invented. This is a partial surface: the collection carries 47 requests (46 against the array, one external Okta SSO redirect), which normalize to 40 operations across 38 paths. The full InfiniAPI surface documented on support.infinidat.com is larger.'
+  description: Derived faithfully from Infinidat's own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3).
   contact:
     name: INFINIDAT Support
     url: https://support.infinidat.com/hc/en-us
@@ -20,14 +20,14 @@ security:
 - basicAuth: []
 - sessionCookie: []
 tags:
-- name: pools
+- name: Pools
 paths:
   /pools:
     get:
       operationId: poolGetPools
       summary: POOL Get Pools
       tags:
-      - pools
+      - Pools
       responses:
         '200':
           description: POOL Get Pools (saved example omitted here for size; see postman/infinidat-infinibox-7-3-postman.json)
@@ -58,6 +58,21 @@ paths:
       - $ref: '#/components/parameters/fields'
       - $ref: '#/components/parameters/sort'
 components:
+  schemas:
+    InfiniBoxError:
+      type: object
+      description: Error object carried on the envelope's error field.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
   parameters:
     page_size:
       name: page_size
@@ -75,6 +90,13 @@ components:
       schema:
         type: string
       description: Field to sort by; prefix with - to reverse.
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
     page:
       name: page
       in: query
@@ -83,28 +105,6 @@ components:
         type: integer
         default: 1
       description: 1-based page number (InfiniSDK efficient-querying guide).
-    fields:
-      name: fields
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
-  schemas:
-    InfiniBoxError:
-      type: object
-      description: Error object carried on the envelope's error field.
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        severity:
-          type: string
-        reasons:
-          type: array
-          items:
-            type: string
   securitySchemes:
     basicAuth:
       type: http

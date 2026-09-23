@@ -1,7 +1,7 @@
 {
   "provider": "infinidat",
   "sources": [
-    "infinidat-infinibox-openapi.yml"
+    "_ae-authored/infinidat-infinibox-openapi.yml"
   ],
   "outputs": [
     "infinidat-components-api-openapi.yml",
@@ -13,12 +13,11 @@
     "infinidat-system-api-openapi.yml",
     "infinidat-users-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/infinidat-infinibox-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "infinidat-infinibox-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "infinidat-infinibox-openapi.yml: declared missing tag: components",
     "infinidat-infinibox-openapi.yml: declared missing tag: config",
@@ -28,7 +27,16 @@
     "infinidat-infinibox-openapi.yml: declared missing tag: pools",
     "infinidat-infinibox-openapi.yml: declared missing tag: system",
     "infinidat-infinibox-openapi.yml: declared missing tag: users",
-    "apis.yml register: written (+8 apis, 8 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "infinidat-components-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-config-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-filesystems-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-hosts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-pools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-system-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "infinidat-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

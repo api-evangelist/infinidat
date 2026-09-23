@@ -3,7 +3,7 @@ info:
   title: Infinidat InfiniBox REST API (7.3) Users API
   version: '7.3'
   summary: Management REST API served by every InfiniBox / InfiniBox SSA array.
-  description: 'Derived faithfully from Infinidat''s own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3). The InfiniBox REST API is served by each array on-premises at https://<infinibox-host>/api/rest, so there is no single public base URL; the server below is a template. Operations, paths, parameters, request bodies and example responses are carried over verbatim from the collection - nothing has been invented. This is a partial surface: the collection carries 47 requests (46 against the array, one external Okta SSO redirect), which normalize to 40 operations across 38 paths. The full InfiniAPI surface documented on support.infinidat.com is larger.'
+  description: Derived faithfully from Infinidat's own published Postman collection for the InfiniBox 7.3 API (https://github.com/Infinidat/api_7_3).
   contact:
     name: INFINIDAT Support
     url: https://support.infinidat.com/hc/en-us
@@ -20,14 +20,14 @@ security:
 - basicAuth: []
 - sessionCookie: []
 tags:
-- name: users
+- name: Users
 paths:
   /users/login:
     post:
       operationId: login
       summary: Login
       tags:
-      - users
+      - Users
       requestBody:
         required: true
         content:
@@ -55,7 +55,7 @@ paths:
       operationId: logout
       summary: Logout
       tags:
-      - users
+      - Users
       responses:
         '200':
           description: Successful response.
@@ -71,6 +71,18 @@ paths:
                 $ref: '#/components/schemas/InfiniBoxError'
 components:
   schemas:
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
     InfiniBoxMetadata:
       type: object
       description: Pagination / readiness metadata returned alongside every result.
@@ -99,18 +111,6 @@ components:
           type: array
           items:
             type: string
-    InfiniBoxEnvelope:
-      type: object
-      description: Standard InfiniBox response envelope observed in the collection's saved examples.
-      properties:
-        result:
-          description: The requested object or array of objects.
-        metadata:
-          $ref: '#/components/schemas/InfiniBoxMetadata'
-        error:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/InfiniBoxError'
   securitySchemes:
     basicAuth:
       type: http
