@@ -320,20 +320,6 @@ components:
           oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/InfiniBoxError'
-    InfiniBoxError:
-      type: object
-      description: Error object carried on the envelope's error field.
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        severity:
-          type: string
-        reasons:
-          type: array
-          items:
-            type: string
     InfiniBoxMetadata:
       type: object
       description: Pagination / readiness metadata returned alongside every result.
@@ -348,7 +334,36 @@ components:
           type: integer
         pages_total:
           type: integer
+    InfiniBoxError:
+      type: object
+      description: Error object carried on the envelope's error field.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
   parameters:
+    sort:
+      name: sort
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Field to sort by; prefix with - to reverse.
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number (InfiniSDK efficient-querying guide).
     page_size:
       name: page_size
       in: query
@@ -358,13 +373,6 @@ components:
         default: 50
         maximum: 1000
       description: Objects per page; default 50, maximum 1000.
-    sort:
-      name: sort
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Field to sort by; prefix with - to reverse.
     fields:
       name: fields
       in: query
@@ -372,14 +380,6 @@ components:
       schema:
         type: string
       description: Comma-separated list of fields to return.
-    page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 1
-      description: 1-based page number (InfiniSDK efficient-querying guide).
   securitySchemes:
     basicAuth:
       type: http
