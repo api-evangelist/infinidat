@@ -123,18 +123,6 @@ paths:
                 $ref: '#/components/schemas/InfiniBoxError'
 components:
   schemas:
-    InfiniBoxEnvelope:
-      type: object
-      description: Standard InfiniBox response envelope observed in the collection's saved examples.
-      properties:
-        result:
-          description: The requested object or array of objects.
-        metadata:
-          $ref: '#/components/schemas/InfiniBoxMetadata'
-        error:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/InfiniBoxError'
     InfiniBoxMetadata:
       type: object
       description: Pagination / readiness metadata returned alongside every result.
@@ -149,6 +137,18 @@ components:
           type: integer
         pages_total:
           type: integer
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
     InfiniBoxError:
       type: object
       description: Error object carried on the envelope's error field.
@@ -179,6 +179,13 @@ components:
         type: integer
         default: 1
       description: 1-based page number (InfiniSDK efficient-querying guide).
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
     page_size:
       name: page_size
       in: query
@@ -188,13 +195,6 @@ components:
         default: 50
         maximum: 1000
       description: Objects per page; default 50, maximum 1000.
-    fields:
-      name: fields
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
   securitySchemes:
     basicAuth:
       type: http

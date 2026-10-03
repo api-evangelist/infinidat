@@ -74,6 +74,13 @@ components:
         type: integer
         default: 1
       description: 1-based page number (InfiniSDK efficient-querying guide).
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
     page_size:
       name: page_size
       in: query
@@ -83,13 +90,6 @@ components:
         default: 50
         maximum: 1000
       description: Objects per page; default 50, maximum 1000.
-    fields:
-      name: fields
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
   schemas:
     InfiniBoxError:
       type: object
