@@ -322,18 +322,6 @@ components:
           type: integer
         pages_total:
           type: integer
-    InfiniBoxEnvelope:
-      type: object
-      description: Standard InfiniBox response envelope observed in the collection's saved examples.
-      properties:
-        result:
-          description: The requested object or array of objects.
-        metadata:
-          $ref: '#/components/schemas/InfiniBoxMetadata'
-        error:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/InfiniBoxError'
     InfiniBoxError:
       type: object
       description: Error object carried on the envelope's error field.
@@ -348,7 +336,35 @@ components:
           type: array
           items:
             type: string
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
   parameters:
+    page_size:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 50
+        maximum: 1000
+      description: Objects per page; default 50, maximum 1000.
+    fields:
+      name: fields
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Comma-separated list of fields to return.
     sort:
       name: sort
       in: query
@@ -364,22 +380,6 @@ components:
         type: integer
         default: 1
       description: 1-based page number (InfiniSDK efficient-querying guide).
-    fields:
-      name: fields
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Comma-separated list of fields to return.
-    page_size:
-      name: page_size
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 50
-        maximum: 1000
-      description: Objects per page; default 50, maximum 1000.
   securitySchemes:
     basicAuth:
       type: http
