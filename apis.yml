@@ -42,6 +42,9 @@ x-tier-reason: enrichment-pipeline
 specificationVersion: '0.23'
 created: '2026-08-01'
 modified: '2026-08-01'
+x-docs-platform: readthedocs
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
 - Company
 - Storage
