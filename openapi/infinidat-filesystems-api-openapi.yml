@@ -77,57 +77,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InfiniBoxError'
 components:
-  schemas:
-    InfiniBoxMetadata:
-      type: object
-      description: Pagination / readiness metadata returned alongside every result.
-      properties:
-        ready:
-          type: boolean
-        number_of_objects:
-          type: integer
-        page:
-          type: integer
-        page_size:
-          type: integer
-        pages_total:
-          type: integer
-    InfiniBoxError:
-      type: object
-      description: Error object carried on the envelope's error field.
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        severity:
-          type: string
-        reasons:
-          type: array
-          items:
-            type: string
-    InfiniBoxEnvelope:
-      type: object
-      description: Standard InfiniBox response envelope observed in the collection's saved examples.
-      properties:
-        result:
-          description: The requested object or array of objects.
-        metadata:
-          $ref: '#/components/schemas/InfiniBoxMetadata'
-        error:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/InfiniBoxError'
   parameters:
-    page_size:
-      name: page_size
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 50
-        maximum: 1000
-      description: Objects per page; default 50, maximum 1000.
     fields:
       name: fields
       in: query
@@ -150,6 +100,56 @@ components:
         type: integer
         default: 1
       description: 1-based page number (InfiniSDK efficient-querying guide).
+    page_size:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 50
+        maximum: 1000
+      description: Objects per page; default 50, maximum 1000.
+  schemas:
+    InfiniBoxMetadata:
+      type: object
+      description: Pagination / readiness metadata returned alongside every result.
+      properties:
+        ready:
+          type: boolean
+        number_of_objects:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        pages_total:
+          type: integer
+    InfiniBoxEnvelope:
+      type: object
+      description: Standard InfiniBox response envelope observed in the collection's saved examples.
+      properties:
+        result:
+          description: The requested object or array of objects.
+        metadata:
+          $ref: '#/components/schemas/InfiniBoxMetadata'
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/InfiniBoxError'
+    InfiniBoxError:
+      type: object
+      description: Error object carried on the envelope's error field.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        severity:
+          type: string
+        reasons:
+          type: array
+          items:
+            type: string
   securitySchemes:
     basicAuth:
       type: http

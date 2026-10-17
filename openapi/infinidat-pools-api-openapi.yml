@@ -59,15 +59,6 @@ paths:
       - $ref: '#/components/parameters/sort'
 components:
   parameters:
-    page_size:
-      name: page_size
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 50
-        maximum: 1000
-      description: Objects per page; default 50, maximum 1000.
     fields:
       name: fields
       in: query
@@ -90,6 +81,15 @@ components:
         type: integer
         default: 1
       description: 1-based page number (InfiniSDK efficient-querying guide).
+    page_size:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 50
+        maximum: 1000
+      description: Objects per page; default 50, maximum 1000.
   schemas:
     InfiniBoxError:
       type: object
