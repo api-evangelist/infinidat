@@ -64,48 +64,117 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Infinidat is an enterprise storage vendor — a Lenovo company since April 2026 — building
-petabyte-scale primary storage (InfiniBox, InfiniBox SSA), backup and rapid-recovery appliances
-(InfiniGuard), and the InfiniSafe cyber-resilience layer. Every InfiniBox array serves its own
-management REST API, "InfiniAPI", at `https://<array>/api/rest`, alongside the InfiniShell CLI
-and an HTML5 GUI.
+Infinidat is an enterprise storage vendor — a Lenovo company since April 2026 — building petabyte-scale primary storage, all-flash arrays and cyber-resilient backup appliances: InfiniBox and InfiniBox SSA for primary block and file workloads, InfiniGuard for backup and rapid recovery, and the InfiniSafe cyber-resilience layer with immutable snapshots, logical air-gapping, a fenced forensic environment and cyber detection. Every InfiniBox array serves its own management REST API (InfiniAPI) at https://<array>/api/rest, alongside the InfiniShell CLI and an HTML5 GUI. Infinidat publishes a first-party Postman collection for the InfiniBox 7.3 API, the InfiniSDK Python SDK, an Ansible collection, a Kubernetes CSI driver and an OpenStack Cinder driver on GitHub.
 
-- Website: https://www.infinidat.com/en
-- Support / documentation: https://support.infinidat.com/hc/en-us
-- GitHub: https://github.com/Infinidat
-- InfiniSDK: https://infinisdk.readthedocs.io/en/latest/
+**Areas:** Company · Storage · Enterprise Storage · Data Infrastructure · Data Protection · Cyber Resilience · Backup and Recovery · Kubernetes · Infrastructure · On-Premises
 
-## The one thing to know
+## Infinidat on APIs.io
 
-The InfiniBox API is **appliance-local**. There is no public Infinidat API endpoint, no hosted
-base URL, no sandbox and no self-service signup — the base URL is the customer's own array.
+Everything profiled for Infinidat is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/infinidat/](https://apis.io/providers/infinidat/)** — or go straight to one of the APIs or properties below.
 
-## What is in this repo
+### APIs (8)
 
-| Path | What it is |
+- [Infinidat Components API](https://apis.io/apis/infinidat/infinidat-components-api/) — The components API from Infinidat — 7 operation(s) for components.
+- [Infinidat Config API](https://apis.io/apis/infinidat/infinidat-config-api/) — The config API from Infinidat — 11 operation(s) for config.
+- [Infinidat Filesystems API](https://apis.io/apis/infinidat/infinidat-filesystems-api/) — The filesystems API from Infinidat — 2 operation(s) for filesystems.
+- [Infinidat Hosts API](https://apis.io/apis/infinidat/infinidat-hosts-api/) — The hosts API from Infinidat — 1 operation(s) for hosts.
+- [Infinidat Metadata API](https://apis.io/apis/infinidat/infinidat-metadata-api/) — The metadata API from Infinidat — 2 operation(s) for metadata.
+- [Infinidat Pools API](https://apis.io/apis/infinidat/infinidat-pools-api/) — The pools API from Infinidat — 1 operation(s) for pools.
+- [Infinidat System API](https://apis.io/apis/infinidat/infinidat-system-api/) — The system API from Infinidat — 12 operation(s) for system.
+- [Infinidat Users API](https://apis.io/apis/infinidat/infinidat-users-api/) — The users API from Infinidat — 2 operation(s) for users.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Infinidat Events](https://apis.io/asyncapis/infinidat/infinidat-events/)
+
+#### Collections (1)
+
+Postman and Open Collection request collections.
+
+- [Infinidat InfiniBox REST API (7.3)](https://apis.io/collections/infinidat/open-infinidat-infinibox/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Infinidat Infinibox Overlay](https://apis.io/overlays/infinidat/infinidat-infinibox-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Infinidat Authentication](https://apis.io/security/infinidat/infinidat-authentication/)
+- [Infinidat Domain Security](https://apis.io/security/infinidat/infinidat-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.infinidat.com/en)
+- [Documentation](https://support.infinidat.com/hc/en-us/categories/10106041231901-Documentation)
+- [Getting started](https://infinisdk.readthedocs.io/en/latest/getting_started.html)
+- [API reference](https://github.com/Infinidat/api_7_3)
+- [Support](https://support.infinidat.com/hc/en-us)
+- [Blog](https://www.infinidat.com/en/blog)
+- [Terms of service](https://www.infinidat.com/en/sites/default/files/resource-pdfs/INFINIDAT-Customer-Product-Online-TCs.pdf)
+- [Privacy policy](https://www.infinidat.com/sites/default/files/resource-pdfs/Infinidat-Privacy-Policy.pdf)
+- [GitHub](https://github.com/Infinidat)
+
+## API Evangelist rating
+
+**Kin Score 33.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
 |---|---|
-| `postman/` | Infinidat's own **InfiniBox 7.3 API** Postman collection, saved verbatim from [Infinidat/api_7_3](https://github.com/Infinidat/api_7_3) — 47 requests |
-| `openapi/` | An OpenAPI 3.1 **derived** from that collection: 40 operations across 38 paths |
-| `overlays/` | Records exactly which parts of the OpenAPI are Infinidat's and which are ours |
-| `conventions/` | Pagination, filtering, field selection, the result/metadata/error envelope, the `?approved=true` approval gate, the `x-infinidat-deprecated-api` header |
-| `errors/` | Error envelope, status semantics, and the error codes observable in public first-party sources |
-| `authentication/` | Session cookie + HTTP Basic profile |
-| `data-model/` | 30 entities, 20 relationships; flags which are confirmed in the spec and which are only documented elsewhere |
-| `asyncapi/` | The event surface — queryable events, SNMP/SYSLOG notification targets. **No AsyncAPI, no webhooks** |
-| `packages/` | InfiniSDK, the Ansible collection, the CSI driver, and the registries that came back empty |
-| `cli/` | InfiniShell |
-| `changelog/` | Dated release history for the Ansible collection and InfiniSDK |
-| `lifecycle/` | Versioning, the deprecation mechanism, and the dead `code.infinidat.com` developer portal |
-| `conformance/` | CSI, Cinder, FIPS 140-2, SAML, LDAP — and the API standards Infinidat does *not* implement |
-| `mcp/` | A **derived candidate** tool set. Infinidat publishes no MCP server |
-| `skills/` | Four agent skills grounded in real operationIds |
-| `well-known/` | Probe results — nothing published |
-| `security/` | Domain security probe (TLS, HSTS, SPF, DMARC, DNSSEC, CAA) |
-| `llms/` | Generated llms.txt |
+| Discoverability | 71.4 |
+| Contract quality | 20.6 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 68.0 |
+| Access clarity | 21.1 |
 
-## Known gaps
+**Agent readiness 31.8** — agent-ready
 
-No OpenAPI from the vendor, no AsyncAPI, no webhooks, no GraphQL, no gRPC, no MCP server, no A2A
-agent card, no `/.well-known/` surface, no `security.txt`, no public vulnerability-disclosure
-policy, no trust center, no status page, no public API changelog, no sandbox. The API reference
-and the full error/event code registries are behind the support-portal login.
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/infinidat/](https://apis.io/providers/infinidat/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Infinidat: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/infinidat/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
